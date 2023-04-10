@@ -1,0 +1,39 @@
+{
+	"name": "dntu-research-conference-2023",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"license": "The-Unlicense",
+	"private": false,
+	"engines": {
+		"node": ">= 14.0.0",
+		"npm": ">= 6.0.0"
+	},
+	"homepage": "",
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"bugs": "",
+	"keywords": [],
+	"author": {
+		"name": "",
+		"email": "",
+		"url": ""
+	},
+	"contributors": [],
+	"scripts": {
+    "config": "npx tsc --init --rootDir src --outDir ./dist --esModuleInterop --lib ES2020 --target ES2020 --module nodenext --noImplicitAny true",
+		"build": "tsc",
+		"start": "node ./dist/app.js",
+		"dev": "ts-node --esm ./src/app.ts"
+	},
+	"dependencies": {
+		"@types/node": "^18.15.11",
+		"typescript": "^5.0.4"
+	},
+	"devDependencies": {
+		"ts-node": "^10.9.1"
+	}
+}
