@@ -19,18 +19,21 @@
 	"keywords": [],
 	"author": {
 		"name": "",
-		"email": "",
-		"url": ""
+		"email": "cyanhijirikawa88@gmail.com",
+		"url": "https://github.com/NekoCyan"
 	},
 	"contributors": [],
 	"scripts": {
-    "config": "npx tsc --init --rootDir src --outDir ./dist --esModuleInterop --lib ES2020 --target ES2020 --module nodenext --noImplicitAny true",
+		"config": "npx tsc --init --rootDir src --outDir ./dist --esModuleInterop --lib ES2020 --target ES2020 --module nodenext --noImplicitAny true",
 		"build": "tsc",
 		"start": "node ./dist/app.js",
 		"dev": "ts-node --esm ./src/app.ts"
 	},
 	"dependencies": {
 		"@types/node": "^18.15.11",
+		"dotenv": "^16.0.3",
+		"langchain": "^0.0.51",
+		"openai": "^3.2.1",
 		"typescript": "^5.0.4"
 	},
 	"devDependencies": {
