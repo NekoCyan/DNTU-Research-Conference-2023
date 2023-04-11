@@ -27,7 +27,10 @@
 		"config": "npx tsc --init --rootDir src --outDir ./dist --esModuleInterop --lib ES2020 --target ES2020 --module nodenext --noImplicitAny true",
 		"build": "tsc",
 		"start": "node ./dist/app.js",
-		"dev": "ts-node --esm ./src/app.ts"
+		"dev": "ts-node --esm ./src/app.ts",
+		
+		"starttest": "node ./dist/test.js",
+		"devtest": "ts-node --esm ./src/test.ts"
 	},
 	"dependencies": {
 		"@types/node": "^18.15.11",
