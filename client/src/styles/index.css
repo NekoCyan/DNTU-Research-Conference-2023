@@ -1,0 +1,47 @@
+@import url('./variables.css');
+@import url('./shapes.css');
+@import url('./variables.css');
+@import url('./buttons.css');
+@import url('https://cdn.jsdelivr.net/gh/SebastianAigner/twemoji-amazing/twemoji-amazing.css');
+
+/*
+  Add Twemoji support for project
+  https://github.com/SebastianAigner/twemoji-amazing
+
+  Cheatsheets
+  https://unicode.org/emoji/charts/emoji-list.html
+  " " and ": " -> "-", all chars in lowercase. For examples: "smile face" -> "smile-face", "flag: Vietnam" -> "flag-vietnam"
+  Read Twemoji support for more details
+*/
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Inter;
+}
+
+html {
+  font-size: 16px;
+}
+
+a, button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul, ol {
+	list-style-position: inside;
+  padding-left: 24px;
+}
+
+ul, ol {
+  padding-left: 1rem;
+}
+
+ul ul, ol ol {
+  padding-left: 1rem;
+}
