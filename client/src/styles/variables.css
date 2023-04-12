@@ -1,0 +1,21 @@
+:root {
+  --clr-primary: #2798BC;
+  --clr-rgb-primary: 39, 152, 188;
+  --clr-primary-container: #006787;
+  --clr-rgb-primary-container: 0, 103, 135;
+
+  --clr-error: #EF3A3A;
+  --clr-rgb-error: 239, 58, 58;
+  --clr-error-container: #A92424;
+  --clr-rgb-error-container: 169, 36, 36;
+
+  --clr-background: #FFF;
+  --clr-rgb-background: 255, 255, 255;
+  --clr-onBackground: #262626;
+  --clr-rgb-onBackground: 38, 38, 38;
+  --clr-outline: #C5C5C5;
+  --clr-rgb-outline: 197, 197, 197;
+
+  --border-1: 1px solid;
+  --border-2: 2px solid;
+}
