@@ -1,0 +1,45 @@
+{
+	"name": "dntu-research-conference-2023",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"license": "The-Unlicense",
+	"private": false,
+	"engines": {
+		"node": ">= 14.0.0",
+		"npm": ">= 6.0.0"
+	},
+	"homepage": "",
+	"repository": {
+		"type": "git",
+		"url": ""
+	},
+	"bugs": "",
+	"keywords": [],
+	"author": {
+		"name": "",
+		"email": "cyanhijirikawa88@gmail.com",
+		"url": "https://github.com/NekoCyan"
+	},
+	"contributors": [],
+	"scripts": {
+		"config": "npx tsc --init --rootDir src --outDir ./dist --esModuleInterop --lib ES2020 --target ES2020 --module nodenext --noImplicitAny true",
+		"build": "tsc",
+		"start": "node ./dist/app.js",
+		"dev": "ts-node --esm ./src/app.ts",
+		
+		"starttest": "node ./dist/test.js",
+		"devtest": "ts-node --esm ./src/test.ts"
+	},
+	"dependencies": {
+		"@types/node": "^18.15.11",
+		"dotenv": "^16.0.3",
+		"langchain": "^0.0.51",
+		"openai": "^3.2.1",
+		"typescript": "^5.0.4"
+	},
+	"devDependencies": {
+		"ts-node": "^10.9.1"
+	}
+}

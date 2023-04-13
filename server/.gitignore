@@ -1,0 +1,12 @@
+# Modules
+node_modules/
+
+# Build
+dist/
+
+# Idk
+package-lock.json
+
+# Testing
+src/test.ts
+/.env
