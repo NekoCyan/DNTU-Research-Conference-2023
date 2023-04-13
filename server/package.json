@@ -1,0 +1,16 @@
+{
+  "name": "dntu-research-conference-2023",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "langchain": "^0.0.54",
+    "openai": "^3.2.1"
+  }
+}
