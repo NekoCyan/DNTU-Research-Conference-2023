@@ -1,0 +1,9 @@
+# Modules
+node_modules/
+
+# Idk
+package-lock.json
+
+# Testing
+src/test.js
+/.env
