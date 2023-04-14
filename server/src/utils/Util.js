@@ -64,9 +64,11 @@ class Util {
     autoBind(obj) {
         for (const method of Object.getOwnPropertyNames(Object.getPrototypeOf(obj))) {
             if (method !== 'constructor' && typeof obj[method] === 'function') {
-                obj[method] = obj[method].bind(this);
+                obj[method] = obj[method].bind(obj);
             }
         }
+
+        return obj;
     }
 }
 
