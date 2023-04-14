@@ -2,56 +2,79 @@
 const secret = require('./utils/secret');
 secret();
 
-//Validate if API KEY is missing.
-if (!process.env.OPENAI_API_KEY) {
-    throw new Error('OPEN_AI_KEY is Missing in .env file.');
-}
+// Load required modules.
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const ServerManager = require('./class/ServerManager');
+const RoutesHandler = require('./handlers/routesHandler');
 
-//Import the OpenAPI Large Language Model (you can import other models here eg. Cohere)
-const { OpenAI } = require('langchain/llms/openai');
+/**
+ * @type {ServerManager}
+ */
+const _server = new ServerManager();
+RoutesHandler(_server);
 
-//Import the BufferMemory module
-const { BufferMemory } =  require('langchain/memory');
+// Routers.
+const GET = require('./routers/GET');
+const POST = require('./routers/POST');
 
-//Import the Chains module
-const { LLMChain } = require('langchain/chains');
+// App & Router.
+const app = express();
+const router = express.Router();
 
-//Import the PromptTemplate module
-const { PromptTemplate } = require('langchain/prompts');
+const PORT = process.env.PORT || 3000;
 
-(async () => {
-    //Instantiate the BufferMemory passing the memory key for storing state
-    const memory = new BufferMemory({ memoryKey: 'chat_history' });
+// Use extension.
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.raw());
 
-    //Instantiante the OpenAI model
-    //Pass the "temperature" parameter which controls the RANDOMNESS of the model's output. A lower temperature will result in more predictable output, while a higher temperature will result in more random output. The temperature parameter is set between 0 and 1, with 0 being the most predictable and 1 being the most random
-    const model = new OpenAI({ temperature: 0.9 });
+// Validate body input (avoid unexpected).
+app.use(function (req, res, next) {
+    req.rawBody = '';
+    req.setEncoding('utf8');
 
-    //Create the template. The template is actually a "parameterized prompt". A "parameterized prompt" is a prompt in which the input parameter names are used and the parameter values are supplied from external input
-    //Note the input variables {chat_history} and {input}
-    const template = `The following is a friendly conversation between a human and an AI. The AI is talkative and provides lots of specific details from its context. If the AI does not know the answer to a question, it truthfully says it does not know.
-      Current conversation:
-      {chat_history}
-      Human: {input}
-      AI:`;
-
-    //Instantiate "PromptTemplate" passing the prompt template string initialized above
-    const prompt = PromptTemplate.fromTemplate(template);
-
-    //Instantiate LLMChain, which consists of a PromptTemplate, an LLM and memory.
-    const chain = new LLMChain({ llm: model, prompt, memory });
-
-    //Run the chain passing a value for the {input} variable. The result will be stored in {chat_history}
-    const res1 = await chain.call({ input: "Hi! I'm Morpheus." });
-    console.log({ res1 });
-
-    //Run the chain again passing a value for the {input} variable. This time, the response from the last run ie. the  value in {chat_history} will alo be passed as part of the prompt
-    const res2 = await chain.call({ input: "What's my name?" });
-    console.log({ res2 });
-
-    //BONUS!!
-    const res3 = await chain.call({
-        input: 'Which epic movie was I in and who was my protege?',
+    req.on('data', function (chunk) {
+        req.rawBody += chunk;
     });
-    console.log({ res3 });
-})();
+
+    req.on('end', function () {
+        try {
+            const tryBodyParse = JSON.parse(req.rawBody);
+            req.body = tryBodyParse;
+            next();
+        } catch(e) {
+            res.status(400).send('Bad Request.');
+        }
+    });
+});
+
+// "*" means send all direction to the router.
+app.use("*", router);
+
+// Handle get & post request.
+router.get("*", async (req, res, next) => {
+    if (req.originalUrl.includes('favicon.ico')) {
+        res.status(204).end();
+    } else {
+        return await GET(_server, req, res, next);
+    }
+});
+router.post("*", async (req, res, next) => {
+    try {
+        if (req.originalUrl.includes('favicon.ico')) {
+            res.status(204).end();
+        } else {
+            return await POST(_server, req, res, next);
+        }
+    } catch (err) {
+        console.log(err);
+        res.send("Error.");
+    }
+});
+
+// App listen.
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
