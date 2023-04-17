@@ -1,10 +1,11 @@
+const md5 = require('md5');
 const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
 
 class Util {
     constructor() {
         this.autoBind(this);
     }
-    
+
     /**
      * Export Response for API.
      * @param {number} code Response Code.
@@ -64,8 +65,100 @@ class Util {
     autoBind(obj) {
         for (const method of Object.getOwnPropertyNames(Object.getPrototypeOf(obj))) {
             if (method !== 'constructor' && typeof obj[method] === 'function') {
-                obj[method] = obj[method].bind(this);
+                obj[method] = obj[method].bind(obj);
             }
+        }
+
+        return obj;
+    }
+
+    /**
+     * Default Database Options.
+     * @returns {import('../../typings/index').DatabaseOptions}
+     */
+    defaultDatabaseOptions() {
+        return {
+            url: process.env.DATABASE_URL,
+            name: process.env.DATABASE_NAME,
+            breakOnError: true
+        }
+    }
+
+    /**
+     * Default Server Manager Options.
+     * @returns {import('../../typings/index').ServerManagerOptions}
+     */
+    defaultServerManager() {
+        return {
+            debug: false
+        }
+    }
+
+    /**
+     * Hash MD5.
+     * @param {string} input 
+     * @param {number} times Hash times.
+     */
+    hashMD5(input, times = 1) {
+        if (typeof input !== 'string') throw new Error(`Input must be String.`);
+        if (typeof times !== 'number' && times != 0) throw new Error(`Times must be Number.`);
+        if (times <= 0) return input;
+
+        return this?.hashMD5(md5(input), times - 1) || Util.prototype.hashMD5(md5(input), times - 1);
+    }
+
+    /**
+     * Random String.
+     * @see https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+     * @param {number} length lenght of result of string.
+     * @returns {string}
+     */
+    randomString(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        return result;
+    }
+
+    /**
+     * Check if mail is valid.
+     * @see https://stackoverflow.com/questions/60737672/email-regex-pattern-in-nodejs
+     * @param {string} mail 
+     * @returns {boolean}
+     */
+    isValidMail(mail) {
+        var mailFormat = /^[a-zA-Z0-9_.+]+(?<!^[0-9]*)@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+        if (mail !== '' && mail.match(mailFormat)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Options Required.
+     * @param {object} obj
+     * @param {string} optionsName 
+     * @param {'bigint' | 'boolean' | 'function' | 'number' | 'object' | 'string' | 'symbol' | 'undefined' | 'array'} dataType 
+     * @returns {Error | void}
+     */
+    _optionsRequired(obj, optionsName, dataType) {
+        if (!optionsName) throw new Error(`optionsName is missing.`);
+        if (!dataType) throw new Error(`dataType is missing.`);
+
+        const dataTypes = ['bigint', 'boolean', 'function', 'number', 'object', 'string', 'symbol', 'undefined', 'array'];
+        dataType = dataType?.toLowerCase();
+        if (!dataTypes.includes(dataType)) throw new Error(`dataType must be one of the following: ${dataTypes.join(', ')}.`);
+
+        if ([undefined, null].some(x => x == obj[optionsName])) throw new Error(`Options: "${optionsName}" is required.`);
+        if (dataType === 'array' && !Array.isArray(obj[optionsName])) throw new Error(`${optionsName} must be an ${dataType}.`);
+        else {
+            if (typeof obj[optionsName] !== dataType) throw new Error(`${optionsName} must be a ${dataType}.`);
         }
     }
 }
