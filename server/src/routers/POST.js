@@ -14,11 +14,14 @@ const Util = require('../utils/Util').prototype;
  * @param {express.NextFunction} next Next Function.
  */
 module.exports = async (_server, req, res, next) => {
-    console.log(req);
     const URL = URLHandler(req.baseUrl);
     const Router = req.method;
     const input = `${Router}:/${URL.join('/')}`;
-    console.log(input);
+    
+    if (_server.options.dedug == true) {
+        console.log(req);
+        console.log(input);
+    }
 
     const findRoute = _server.routes.get(input);
     if (findRoute) {
@@ -29,7 +32,8 @@ module.exports = async (_server, req, res, next) => {
             res.json(APIResponseHandler(-1, 'Parameters for Query or Body is Missing.'));
         } else {
             const Manager = new RouteManager(_server, req, res, next);
-            res.json(await findRoute.run(Manager, Util));
+            const callBack = await findRoute.run(Manager, Util);
+            return res.send(callBack);
         }
     } else {
         res.json(APIResponseHandler(-1, 'Not found.'));

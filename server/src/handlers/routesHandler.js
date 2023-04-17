@@ -24,7 +24,6 @@ module.exports = (_server, reload = false) => {
                 pull = mergeDefault(pull, { route: getRouteURL(i.name) });
 
                 _server.routes.set(pull.route, pull);
-                console.log(pull)
                 loaded.push(pull.route);
             } else {
                 continue;
