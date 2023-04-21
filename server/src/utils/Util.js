@@ -38,6 +38,41 @@ class Util {
     }
 
     /**
+     * 
+     * @param {object} objToCheck 
+     * @param {Array<import('../../typings/index').RouteDataArrayRequired>} objRequired 
+     * @param {'query' | 'header' | 'body'} type Request Type.
+     * @returns {{type: string, data: Array<string>}}
+     */
+    checkRequirement(objToCheck, objRequired, type) {
+        if (!objRequired || !objRequired[0]) return this?.RequirementHandler(type) || Util.prototype.RequirementHandler(type);
+
+        let missingRequired = [];
+
+        const filterRequired = objRequired.filter(x => x?.required == true);
+        for (const i of filterRequired) {
+            if (!objToCheck[i.name]) {
+                missingRequired.push(i.name);
+            }
+        }
+
+        return this?.RequirementHandler(type, missingRequired) || Util.prototype.RequirementHandler(type, missingRequired);
+    }
+
+    /**
+     * 
+     * @param {'query' | 'header' | 'body'} type 
+     * @param {Array<string>} data 
+     * @returns {{type: string, data: Array<string>}}
+     */
+    RequirementHandler(type, data = []) {
+        return {
+            type,
+            data: data || [],
+        }
+    }
+
+    /**
      * Sets default properties on an object that aren't already specified.
      * @credits discord.js
      * @param {Object} def Default properties
@@ -50,7 +85,7 @@ class Util {
             if (!has(given, key) || given[key] === undefined) {
                 given[key] = def[key];
             } else if (given[key] === Object(given[key])) {
-                given[key] = Util.mergeDefault(def[key], given[key]);
+                given[key] = this?.mergeDefault(def[key], given[key]) || Util.prototype.mergeDefault(def[key], given[key]);
             }
         }
 
@@ -90,7 +125,8 @@ class Util {
      */
     defaultServerManager() {
         return {
-            debug: false
+            debug: false,
+            ShowRequiredRequest: true,
         }
     }
 
@@ -138,6 +174,15 @@ class Util {
         }
 
         return false;
+    }
+
+    /**
+     * Set the first letter of the string to uppercase.
+     * @param {string} string 
+     * @returns {string}
+     */
+    Capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     /**

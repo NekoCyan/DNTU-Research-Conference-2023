@@ -1,14 +1,20 @@
 const RouteManager = require('../../../class/RouteManager');
 const Util = require('../../../utils/Util');
 
+/**
+ * @type {import('../../../../typings').RouteData}
+ */
 module.exports = {
     status: true,
     query: null,
+    headers: null,
     body: [
+        { name: 'fullname', required: true },
         { name: 'username', required: true },
         { name: 'password', required: true },
-        { name: 'fullname', required: true },
+        { name: 'email', required: false },
     ],
+    authorization: false,
     /**
      * @param {RouteManager} param0
      * @param {Util} param1
