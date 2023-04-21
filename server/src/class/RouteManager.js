@@ -16,7 +16,6 @@ class RouteManager {
         this.next = next;
 
         Util.autoBind(this);
-        await (this.GetUser())
     }
 
     /**
