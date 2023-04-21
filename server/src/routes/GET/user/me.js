@@ -6,9 +6,7 @@ const Util = require('../../../utils/Util');
  */
 module.exports = {
     status: true,
-    query: [
-        { name: 'token', required: true },
-    ],
+    query: null,
     headers: null,
     body: null,
     authorization: true,
@@ -18,13 +16,17 @@ module.exports = {
      * @returns {Promise<APIResponseHandler>}
      */
     async run({
-        _server, req, res, next,
+        _server, req, res, next, GetUser,
     }, {
         APIResponseHandler, hashMD5,
     }) {
-        const { token } = req.query;
-
-        // to do later.
-        return "ehe";
+        const User = await await GetUser();
+        if (User instanceof Error) return APIResponseHandler(-1, "Internal Server Error");
+        else if (!User) return APIResponseHandler(-1, "Unauthorized.");
+        else {
+            console.log(User);
+    
+            return "Authorized.";
+        }
     }
 }

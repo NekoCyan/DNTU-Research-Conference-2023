@@ -3,6 +3,7 @@ import { ServerManager } from '../src/class/ServerManager';
 import RouteManager from '../src/class/RouteManager';
 import Util from '../src/utils/Util';
 import mongoose from 'mongoose';
+import * as Schema from './schema';
 
 export class ServerManager {
 	public constructor(options?: ServerManagerOptions);
@@ -20,16 +21,38 @@ export interface ServerManagerOptions {
 	 * @default false
 	 */
 	dedug: boolean;
+	/**
+	 * Show variables / data that Missing in the Request (query|header|body).
+	 * @default true
+	 */
+	ShowRequiredRequest: boolean;
 }
 
 export interface RouteData {
+	/**
+	 * Enable this Route?
+	 */
 	status: boolean;
-	query?: Array<RouteDataArrayRequired>;
-	body?: Array<RouteDataArrayRequired>;
-	public run(
-		Manager: RouteManager,
+	/**
+	 * Query Request.
+	 */
+	query?: Array<RouteDataArrayRequired> | null;
+	/**
+	 * Headers Request.
+	 */
+	headers?: Array<RouteDataArrayRequired> | null;
+	/**
+	 * Body Request.
+	 */
+	body?: Array<RouteDataArrayRequired> | null;
+	/**
+	 * Check if authorization is available/non-null/non-undefined in Header Request.
+	 */
+	authorization: boolean;
+	public async run(
+		RouteManager: RouteManager,
 		Utilities: Util,
-	): Promise<APIResponseHandler>;
+	): Promise<string | APIResponseHandler>;
 }
 
 export interface RouteDataArrayRequired {
@@ -39,6 +62,9 @@ export interface RouteDataArrayRequired {
 
 export interface APIResponseHandler {
 	code: number;
+	/**
+	 * If code number is negative number, this will be true.
+	 */
 	isError: boolean;
 	message: string;
 	data: Array<data> | string | object | null;
@@ -57,8 +83,7 @@ export class Database {
 	get ready(): boolean;
 	get timestamp(): null | number;
 
-	// Database Schema / Collections.
-	public async User(): Promise<mongoose.Model<any, {}, {}, {}, any, any>>;
+	public async User(): Promise<Schema.UserModel>;
 }
 
 export interface DatabaseOptions {

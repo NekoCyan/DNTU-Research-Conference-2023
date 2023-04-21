@@ -6,6 +6,8 @@ const {
     defaultDatabaseOptions, mergeDefault, _optionsRequired
 } = require('../utils/Util').prototype;
 
+const SchemaDefinationHandler = require('../database/handler');
+
 const log = (msg) => console.log(`[DATABASE] ${msg}`);
 
 /**
@@ -44,7 +46,7 @@ class Database {
 
     /**
      * Create Connection to Database.
-     * @returns {void}
+     * @returns {Promise<void>}
      */
     async connect() {
         if (this.ready) throw new Error(`Database is already connected.`);
@@ -69,7 +71,7 @@ class Database {
 
     /**
      * Remove Connection to Database.
-     * @returns {void}
+     * @returns {Promise<void>}
      */
     async disconnect() {
         if (!this.ready) throw new Error(`Database is not connected.`);
@@ -87,24 +89,19 @@ class Database {
 
     /**
      * Create Schema / Get Collection about this Schema.
+     * @returns {Promise<import('../../typings/schema').UserModel>}
      */
     async User() {
         if (!this.ready) throw new Error(`Database is not connected.`);
-        
-        const newSchema = new Schema({
-            userId: { type: String, required: true, unique: true },
-            fullname: { type: String, required: true },
-            username: { type: String, required: true },
-            password: { type: String, required: true },
-            email: { type: String },
-            token: { type: String },
-        });
 
-        return mongoose.models.user || mongoose.model('user', newSchema);
+        const newSchema = new Schema(SchemaDefinationHandler.userSchemaDefinition);
+
+        return mongoose.model('user', newSchema);
     }
 
     /**
      * Is Database Connected.
+     * @returns {boolean}
      */
     get ready() {
         return this.connectedTimestamp != null ? true : false;
@@ -112,6 +109,7 @@ class Database {
 
     /**
      * Database Connected Timestamp.
+     * @returns {number | null}
      */
     get timestamp() {
         return this.connectedTimestamp;

@@ -16,6 +16,22 @@ class RouteManager {
         this.next = next;
 
         Util.autoBind(this);
+        await (this.GetUser())
+    }
+
+    /**
+     * 
+     * @param {string} authorization Default is authorization in Headers
+     * @default this.req.headers.authorization Request Authorization from Headers.
+     */
+    async GetUser(authorization = this.req.headers.authorization) {
+        const User = await this._server.db.User();
+        try {
+            const resUser = await User.findOne({ token: authorization });
+            return resUser;
+        } catch (e) {
+            return e;
+        }
     }
 }
 
