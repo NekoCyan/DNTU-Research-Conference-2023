@@ -1,6 +1,3 @@
-const RouteManager = require('../../../class/RouteManager');
-const Util = require('../../../utils/Util');
-
 /**
  * @type {import('../../../../typings').RouteData}
  */
@@ -15,11 +12,6 @@ module.exports = {
         { name: 'email', required: false },
     ],
     authorization: false,
-    /**
-     * @param {RouteManager} param0
-     * @param {Util} param1
-     * @returns {Promise<APIResponseHandler>}
-     */
     async run({
         _server, req, res, next,
     }, {
@@ -27,18 +19,18 @@ module.exports = {
     }) {
         const { username, password, fullname, email } = req.body;
 
-        const User = await _server.db.User();
-
-        const reg = /^[a-z0-9]+$/; // Only allow lowercase and number.
-        if (!reg.test(username)) return APIResponseHandler(-1, 'Username only contains lowercase letters and number.');
-
-        const checkUsername = await User.findOne({ username });
-        if (checkUsername) return APIResponseHandler(-1, 'Username is already Exists.');
-        if (email && !isValidMail(email)) return APIResponseHandler(-1, 'Invalid Email.');
-
-        const newToken = randomString(64);
-
         try {
+            const User = await _server.db.User();
+
+            const reg = /^[a-z0-9]+$/; // Only allow lowercase and number.
+            if (!reg.test(username)) return APIResponseHandler(-1, 'Username only contains lowercase letters and number.');
+
+            const checkUsername = await User.findOne({ username });
+            if (checkUsername) return APIResponseHandler(-1, 'Username is already Exists.');
+            if (email && !isValidMail(email)) return APIResponseHandler(-1, 'Invalid Email.');
+
+            const newToken = randomString(64);
+
             const res = await User.create({
                 userId: (await User.count()) + 1,
                 username,

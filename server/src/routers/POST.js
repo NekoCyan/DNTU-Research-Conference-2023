@@ -46,7 +46,7 @@ module.exports = async (_server, req, res, next) => {
         } else {
             const Manager = new RouteManager(_server, req, res, next);
             const callback = await findRoute.run(Manager, Util);
-            return res.send(callback);
+            if (callback) return res.send(callback);
         }
     } else {
         res.json(APIResponseHandler(-1, 'Not found.'));

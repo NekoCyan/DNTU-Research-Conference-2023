@@ -51,7 +51,7 @@ class Util {
 
         const filterRequired = objRequired.filter(x => x?.required == true);
         for (const i of filterRequired) {
-            if (!objToCheck[i.name]) {
+            if (!objToCheck[i.name] && ![null, undefined, ''].includes(objToCheck[i.name])) {
                 missingRequired.push(i.name);
             }
         }
@@ -100,7 +100,11 @@ class Util {
     autoBind(obj) {
         for (const method of Object.getOwnPropertyNames(Object.getPrototypeOf(obj))) {
             if (method !== 'constructor' && typeof obj[method] === 'function') {
-                obj[method] = obj[method].bind(obj);
+                try {
+                    obj[method] = obj[method].bind(obj);
+                } catch (e) {
+                    continue;
+                }
             }
         }
 
