@@ -19,8 +19,7 @@ class RouteManager {
     }
 
     /**
-     * 
-     * @param {string} authorization Default is authorization in Headers
+     * @param {string} authorization
      * @default this.req.headers.authorization Request Authorization from Headers.
      */
     async GetUser(authorization = this.req.headers.authorization) {
@@ -29,7 +28,7 @@ class RouteManager {
             const resUser = await User.findOne({ token: authorization });
             return resUser;
         } catch (e) {
-            return e;
+            return new Error(e);
         }
     }
 }
