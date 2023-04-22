@@ -1,6 +1,3 @@
-const RouteManager = require('../../../class/RouteManager');
-const Util = require('../../../utils/Util');
-
 /**
  * @type {import('../../../../typings').RouteData}
  */
@@ -12,11 +9,6 @@ module.exports = {
     headers: null,
     body: null,
     authorization: true,
-    /**
-     * @param {RouteManager} param0
-     * @param {Util} param2
-     * @returns {Promise<APIResponseHandler>}
-     */
     async run({
         _server, req, res, next,
     }, {

@@ -26,9 +26,16 @@ class RouteManager {
         const User = await this._server.db.User();
         try {
             const resUser = await User.findOne({ token: authorization });
-            return resUser;
+
+            if (resUser) {
+                return resUser;
+            } else {
+                this.res.send(Util.APIResponseHandler(-1, "Unauthorized."));
+                return null;
+            }
         } catch (e) {
-            return new Error(e);
+            this.res.send(Util.APIResponseHandler(-1, "Internal Server Error."));
+            return null;
         }
     }
 }

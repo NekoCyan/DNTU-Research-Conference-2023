@@ -1,6 +1,3 @@
-const RouteManager = require('../../../class/RouteManager');
-const Util = require('../../../utils/Util');
-
 /**
  * @type {import('../../../../typings').RouteData}
  */
@@ -10,23 +7,21 @@ module.exports = {
     headers: null,
     body: null,
     authorization: true,
-    /**
-     * @param {RouteManager} param0
-     * @param {Util} param2
-     * @returns {Promise<APIResponseHandler>}
-     */
     async run({
-        _server, req, res, next, GetUser,
+        _server, req, res, next, GetUser, 
     }, {
-        APIResponseHandler, hashMD5,
+        APIResponseHandler, hashMD5, 
     }) {
-        const User = await await GetUser();
-        if (User instanceof Error) return APIResponseHandler(-1, "Internal Server Error");
-        else if (!User) return APIResponseHandler(-1, "Unauthorized.");
-        else {
-            console.log(User);
-    
-            return "Authorized.";
-        }
+        const User = await GetUser();
+        if (!User) return;
+
+        console.log(User);
+
+        return APIResponseHandler(1, "Authorized.", {
+            userId: User.userId,
+            username: User.username,
+            fullname: User.fullname,
+            email: User?.email || null,
+        });
     }
 }
