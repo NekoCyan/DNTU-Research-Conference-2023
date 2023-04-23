@@ -96,7 +96,7 @@ class Database {
 
         const newSchema = new Schema(SchemaDefinationHandler.userSchemaDefinition);
 
-        return mongoose.model('user', newSchema);
+        return mongoose.models.user || mongoose.model('user', newSchema);
     }
 
     /**

@@ -19,17 +19,23 @@ class RouteManager {
     }
 
     /**
-     * 
-     * @param {string} authorization Default is authorization in Headers
+     * @param {string} authorization
      * @default this.req.headers.authorization Request Authorization from Headers.
      */
     async GetUser(authorization = this.req.headers.authorization) {
         const User = await this._server.db.User();
         try {
             const resUser = await User.findOne({ token: authorization });
-            return resUser;
+
+            if (resUser) {
+                return resUser;
+            } else {
+                this.res.send(Util.APIResponseHandler(-1, "Unauthorized."));
+                return null;
+            }
         } catch (e) {
-            return e;
+            this.res.send(Util.APIResponseHandler(-1, "Internal Server Error."));
+            return null;
         }
     }
 }
