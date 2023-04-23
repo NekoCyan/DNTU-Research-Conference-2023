@@ -1,7 +1,9 @@
-@import url('./variables.css');
 @import url('./shapes.css');
-@import url('./variables.css');
 @import url('./buttons.css');
+@import url('./share.css');
+@import url('./spacing.css');
+@import url('./typography.css');
+@import url('./variables.css');
 @import url('https://cdn.jsdelivr.net/gh/SebastianAigner/twemoji-amazing/twemoji-amazing.css');
 
 /*
@@ -31,6 +33,7 @@ a, button {
 
 a {
   text-decoration: none;
+  color: var(--clr-primary);
 }
 
 ul, ol {

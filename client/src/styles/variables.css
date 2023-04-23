@@ -1,4 +1,5 @@
 :root {
+  /* FOR COLOR */
   --clr-primary: #2798BC;
   --clr-rgb-primary: 39, 152, 188;
   --clr-primary-container: #006787;
@@ -16,6 +17,15 @@
   --clr-outline: #C5C5C5;
   --clr-rgb-outline: 197, 197, 197;
 
+  /* FOR BORDER */
   --border-1: 1px solid;
   --border-2: 2px solid;
+
+  /* FOR SPACING */
+  --spacing-value: 0.5rem;
+  --spacing-value-step: 0.25rem;
+  --spacing-xxl: 5rem;
+
+  /* FOR FONT SIZE */
+  --fs: 1rem;
 }
