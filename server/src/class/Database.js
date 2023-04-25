@@ -100,6 +100,18 @@ class Database {
     }
 
     /**
+     * Create Schema / Get Collection about this Schema.
+     * @returns {Promise<import('../../typings/schema').TravelModel>}
+     */
+    async Travel() {
+        if (!this.ready) throw new Error(`Database is not connected.`);
+
+        const newSchema = new Schema(SchemaDefinationHandler.travelSchemaDefinition);
+
+        return mongoose.models.travel || mongoose.model('travel', newSchema);
+    }
+
+    /**
      * Is Database Connected.
      * @returns {boolean}
      */

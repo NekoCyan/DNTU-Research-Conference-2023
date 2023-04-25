@@ -27,11 +27,12 @@ module.exports = {
 
                 // Check unique Email.
                 const EmailExists = await (await _server.db.User()).findOne({ email: email });
-                console.log(EmailExists);
-                if (EmailExists) return APIResponseHandler(-1, 'This email already exists, please use another Email.');
+                if (EmailExists) return APIResponseHandler(-1, 'This email is already exists, please use another Email.');
             }
 
             if (!email && !User.email) return APIResponseHandler(-1, 'You must provide an email to update.');
+
+            if (typeof email != 'string') return APIResponseHandler(-1, 'Email must be a string.');
             
             await User.updateOne({
                 $set: {
