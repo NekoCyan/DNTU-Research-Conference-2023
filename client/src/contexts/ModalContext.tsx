@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { 
   ModalContextProps,
@@ -15,6 +15,8 @@ import {
 export const ModalContext = React.createContext<ModalContextValues>({
   data: {
     currentItemName: "",
+    hasDarkBG: true,
+    snackBars: [],
     items: {}
   },
   setData: () => {}
@@ -58,6 +60,8 @@ export function ModalProvider({
 ) {
   const [data, setData] = React.useState<ModalContextProps>({
     currentItemName: "",
+    hasDarkBG: true,
+    snackBars: [],
     items: {}
   })
 
@@ -66,32 +70,4 @@ export function ModalProvider({
       {children}
     </ModalContext.Provider>
   )
-}
-/**
- * __Custom Hook__
- * 
- * Hook này dùng để access vào value của ModalContext.
- * Hook này chỉ dùng cho các component khác muốn bật modal lên.
- * @returns 
- */
-export function useModal() {
-  const { data, setData } = useContext(ModalContext);
-  const { currentItemName } = data;
-  /**
-   * Hàm này dùng để show một item nào đó trong Modal, bắng cách
-   * assign giá trị mới cho `currentItem`.
-   * @param item Tên của một item trong Modal
-   * @returns 
-   */
-  const show = (item: string) => setData({...data, currentItemName: item});
-  /**
-   * Hàm này dùng để ẩn đi item trong modal.
-   * @returns 
-   */
-  const hide = () => setData({...data, currentItemName: ""});
-  return {
-    currentItemName,
-    show,
-    hide
-  }
 }

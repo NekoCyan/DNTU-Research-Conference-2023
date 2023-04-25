@@ -13,3 +13,17 @@
 .formprompt * {
   color: var(--clr-onBackground);;
 }
+
+.prompt-form-content {
+  overflow-y: scroll;
+}
+
+.prompt-form-content::-webkit-scrollbar {
+  display: none;
+}
+
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}

@@ -1,35 +1,105 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { FormEvent } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import {
-  registerAsyncFunc
-} from 'src/api'
+  EMAIL_INPUT_NAME,
+  FULLNAME_INPUT_NAME,
+  USERNAME_INPUT_NAME,
+  PASSWORD_INPUT_NAME,
+  REGISTER_FORM,
+  handleInputChangeWithCondition,
+  renderForm
+} from 'src/utils/form'
+import {
+  getErrorResponse
+} from 'src/utils/axios'
+
+import { useAuth } from 'src/hooks/useAuth'
+import { useSnackBar } from 'src/hooks/useSnackBar'
 
 import Input from '../input/Input'
 
 import './AuthStyles.css'
 
+import {
+  ResponseData
+} from 'src/types'
+
 export default function Register() {
-  const registerInputRefs = React.useRef<{[key: string]: HTMLInputElement | null}>({
-    email: null,
-    fullname: null,
-    username: null,
-    password: null
-  })
+  const navigate = useNavigate();
+  const { register } = useAuth();
+  const { pushSnackBar } = useSnackBar();
 
-  const onRegisterSubmit = async () => {
+  const registerForm = React.useMemo(() => REGISTER_FORM, []);
+  const registerFormKeys = React.useMemo(() => Object.keys(REGISTER_FORM), []);
+
+  const [registerStatus, setRegisterStatus] = React.useState<{[key: string]: undefined | string | boolean}>({
+    hasAnyError: true,
+    [EMAIL_INPUT_NAME]: undefined,
+    [FULLNAME_INPUT_NAME]: undefined,
+    [USERNAME_INPUT_NAME]: undefined,
+    [PASSWORD_INPUT_NAME]: undefined
+  });
+
+  const onRegisterSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
-      let email = registerInputRefs.current.email?.value;
-      let fullname = registerInputRefs.current.fullname?.value;
-      let username = registerInputRefs.current.username?.value;
-      let password = registerInputRefs.current.password?.value;
+      e.preventDefault();
+      if(registerStatus.hasAnyError) return;
+      let form = e.target as HTMLFormElement;
+      let email = form[EMAIL_INPUT_NAME].value;
+      let fullname = form[FULLNAME_INPUT_NAME].value;
+      let username = form[USERNAME_INPUT_NAME].value;
+      let password = form[PASSWORD_INPUT_NAME].value;
 
-      let registerResponse = await registerAsyncFunc(email!, fullname!, username!, password!);
-      console.log(registerResponse);
+      let registerResponse = await register(email!, fullname!, username!, password!);
+      let resData: ResponseData = registerResponse?.data;
+      if(resData.isError) throw new Error(resData.message);
+      navigate("/");
     } catch (error: any) {
-      console.log(error.data.message)
+      console.log(error)
+      console.log(getErrorResponse(error));
+      pushSnackBar(getErrorResponse(error), "Register", "error")
     }
   }
+
+  const form = React.useMemo(() => {
+    return renderForm(
+      registerForm,
+      input => (
+        <div className='mb-1' key={input.name}>
+          <Input
+            {...input.props}
+            labelInputClassName={input.labelInputClassName ? input.labelInputClassName : ""}
+            type={input.type}
+            name={input.name}
+            onInput={
+              input.validate ? (e: React.ChangeEvent<HTMLInputElement>) => handleInputChangeWithCondition(e)(
+                input.validate!.pattern!.test(e.target.value),
+                text => {
+                  setRegisterStatus(prevState => ({...prevState, hasAnyError: false }))
+                  setRegisterStatus(prevState => ({...prevState, [input.name]: undefined }))
+                },
+                text => {
+                  setRegisterStatus(prevState => ({...prevState, hasAnyError: true }))
+                  setRegisterStatus(prevState => ({...prevState, [input.name]: input.validate!.errorMessage }))
+                }
+              )
+              : undefined
+            }
+          />
+          {registerStatus[input.name] && <span className='fs-5 txt-clr-error mt-1'>{input.validate!.errorMessage}</span>}
+        </div>
+      ),
+      undefined,
+      undefined,
+      registerFormKeys
+    )
+  }, [
+    registerStatus[EMAIL_INPUT_NAME],
+    registerStatus[FULLNAME_INPUT_NAME],
+    registerStatus[USERNAME_INPUT_NAME],
+    registerStatus[PASSWORD_INPUT_NAME]
+  ]);
 
   return (
     <div className='auth'>
@@ -39,35 +109,14 @@ export default function Register() {
         <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Scheduler</p>
       </div>
 
-      {/* Login form */}
-      <div className='auth-sub-container mb-1'>
-        <Input
-          ref={input => registerInputRefs.current.email = input}
-          labelInputClassName='mb-1'
-          placeholder='E-mail'
-          type='email'
-        />
-        <Input
-          ref={input => registerInputRefs.current.fullname = input}
-          labelInputClassName='mb-1'
-          placeholder='Tên đầy đủ'
-        />
-        <Input
-          ref={input => registerInputRefs.current.username = input}
-          labelInputClassName='mb-1'
-          placeholder='Tên đăng nhập'
-        />
-        <Input
-          ref={input => registerInputRefs.current.password = input}
-          labelInputClassName='mb-4'
-          type='password'
-          placeholder='Mật khẩu'
-        />
+      {/* Register form */}
+      <form id="register-form" onSubmit={onRegisterSubmit} className='auth-sub-container mb-1'>
+        {form}
         <button
-          className='btn btn-primary rounded-8 btn-full-width'
-          onClick={onRegisterSubmit}
+          className='btn btn-primary rounded-8 btn-full-width mt-4'
+          type="submit"
         >Đăng ký</button>
-      </div>
+      </form>
 
       {/* Navigato register */}
       <div className='auth-sub-container flex jc-space-between'>

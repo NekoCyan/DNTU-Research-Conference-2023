@@ -98,3 +98,11 @@
 .txt-clr-outline {
   color: var(--clr-outline)
 }
+
+.txt-clr-warning {
+  color: var(--clr-warning)
+}
+
+.txt-clr-success {
+  color: var(--clr-success)
+}

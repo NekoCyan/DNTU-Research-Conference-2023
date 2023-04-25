@@ -1,4 +1,7 @@
 .left-side-information {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   max-width: 480px;
   min-width: 300px;

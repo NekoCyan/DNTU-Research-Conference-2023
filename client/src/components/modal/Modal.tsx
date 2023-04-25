@@ -16,6 +16,10 @@ function Item({
   component,
   type
 }: ModalItemProps) {
+  if(type === "snack-bar") {
+    type += " pb-4";
+  }
+
   return (
     <div className={`modal-item ${type}`}>
       {component()}
@@ -36,12 +40,13 @@ export default function Modal({children}: ModalProps) {
       let name: string = child.type.name === "Item" && child.props.name !== "" && child.props.name
       ? child.props.name
       : null;
+      name = child.props.type === "snack-bar" ? "snack-bar" : name;
       return [name, child]
     }))
   }, [children]);
 
   return (
-    <div className={`modal pos-fixed ${context.data.currentItemName === "" ? "hide" : "show"}`}>
+    <div className={`modal pos-fixed ${context.data.hasDarkBG ? "dark-bg" : ""} ${context.data.currentItemName === "" ? "hide" : "show"}`}>
       {items[context.data.currentItemName]}
     </div>
   )

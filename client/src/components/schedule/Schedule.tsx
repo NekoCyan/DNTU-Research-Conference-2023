@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { useModal } from 'src/contexts/ModalContext'
+import { useModal } from 'src/hooks/useModal';
 
 import './ScheduleStyles.css'
 
-export default function Schedule() {
+function Schedule() {
   const { show } = useModal();
 
   return (
@@ -28,3 +28,5 @@ export default function Schedule() {
     </div>
   )
 }
+
+export default React.memo(Schedule)

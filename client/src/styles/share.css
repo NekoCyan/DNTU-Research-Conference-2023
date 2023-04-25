@@ -74,3 +74,12 @@
 .ait-flex-end {
   align-items: flex-end;
 }
+
+/* FLEX WRAP */
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-wrap-re {
+  flex-wrap: wrap-reverse;
+}

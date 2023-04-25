@@ -1,10 +1,10 @@
 import React from "react";
 
 import {
-  SheduleProps,
-  AppContextProps,
   AppContextValues,
-  UserProps
+  UserProps,
+  ScheduleProps,
+  ManifoldProps
 } from 'src/types'
 
 /*
@@ -14,12 +14,22 @@ import {
 */
 
 export const AppContext = React.createContext<AppContextValues>({
-  data: {
-    user: undefined,
-    schedules: undefined
+  user: undefined,
+  schedules: undefined,
+  manifold: {
+    isSplashVisible: true,
+    isLogin: false
   },
-  setData: () => {}
+  setManifold: () => {},
+  setSchedules: () => {},
+  setUser: () => {}
 });
+
+let childrenRef: any;
+let valueRef: any;
+let userRef: any;
+let schedulesRef: any;
+let manifoldRef: any;
 
 /**
  * __Provider__
@@ -33,108 +43,41 @@ export function AppProvider({
 }:{
   children: JSX.Element | Array<JSX.Element> | null
 }) {
-  const [data, setData] = React.useState<AppContextProps>({
-    user: undefined,
-    schedules: undefined
+  if(!childrenRef) childrenRef = children;
+
+  const [user, setUser] = React.useState<UserProps | undefined>(undefined);
+  const [schedules, setSchedules] = React.useState<ScheduleProps | undefined>(undefined);
+  const [manifold, setManifold] = React.useState<ManifoldProps>({
+    isSplashVisible: true,
+    isLogin: false
   });
 
+  // if(!userRef) userRef = user
+  // if(!schedulesRef) schedulesRef = schedules
+  // if(!manifoldRef) manifoldRef = manifold
+
+  let value: AppContextValues = React.useMemo(() => ({
+    user,
+    schedules,
+    manifold,
+    setUser,
+    setSchedules,
+    setManifold
+  }), [user, schedules, manifold]);
+
+  // if(!valueRef) valueRef = value;
+  // console.log("MANIFOLD: ", manifold);
+  // console.log("USER: ", user);
+  // console.log("COMPARE USER: ", userRef === user);
+  // console.log("COMPARE SCHEDULES: ", schedulesRef === schedules);
+  // console.log("COMPARE MANIFOLD: ", manifoldRef === manifold);
+  // console.log("COMPARE CHILDREN: ", childrenRef === children);
+  // console.log("COMPARE VALUE: ", valueRef === value);
+  // console.log("CONTEXT");
+
   return (
-    <AppContext.Provider value={{data, setData}}>
+    <AppContext.Provider value={value}>
       {children}
     </AppContext.Provider>
   )
-}
-
-/**
- * __Custom Hook__
- * 
- * Hook này dùng để access vào `user` trong AppContext.
- * @returns 
- */
-export function useUser() {
-  const { data, setData } = React.useContext(AppContext);
-  const { user } = data;
-
-  /**
-   * Hàm này dùng để update thông tin cho `user`.
-   * @returns
-   */
-  const updateUser = (newUser: UserProps) => setData({...data, user: Object.assign({}, user, newUser) });
-  /**
-   * Hàm này nhận vào thông tin của user, và gán thông tin này cho `user`.
-   * @param newUser Thông tin mới của người dùng.
-   * @returns 
-   */
-  const setUser = (newUser: UserProps) => setData({...data, user: newUser });
-  /**
-   * Hàm này dùng để clear `user`.
-   * @returns
-   */
-  const clearUser = () => setData({...data, user: undefined});
-
-  return {
-    user,
-    updateUser,
-    setUser,
-    clearUser
-  }
-}
-
-export function useSchedules() {
-  const { data, setData } = React.useContext(AppContext);
-  const { schedules } = data;
-
-  /**
-   * Hàm này giúp tìm một thông tin của một lịch trình trong danh sách lịch trình.
-   * @param id Id của schedule. Id này là id của shedule trong MongoDB.
-   * @returns 
-   */
-  const findSchedule = (id: string) => schedules![id];
-  /**
-   * Hàm này sẽ add một lịch trình vào trong danh sách lịch trình.
-   * @param schedule Thông tin đầy đủ của một lịch trình.
-   * @returns 
-   */
-  const addSchedule = (schedule: SheduleProps) => {
-    if(schedules![schedule._id!]) return;
-    let cpSchedules = Object.assign({}, schedules);
-    cpSchedules[schedule._id!] = schedule;
-    setData({...data, schedules: {...cpSchedules}});
-  }
-  /**
-   * Hàm này dùng để update một lịch trình nào đó trong danh sách lịch trình.
-   * @param schedule Một phần thông tin của lịch trình.
-   * @returns 
-   */
-  const updateShedule = (schedule: SheduleProps) => {
-    if(schedules![schedule._id!]) return;
-    let cpSchedules = Object.assign({}, schedules);
-    cpSchedules[schedule._id!] = Object.assign(cpSchedules[schedule._id!], schedule);
-    setData({...data, schedules: {...cpSchedules}});
-  }
-  /**
-   * Hàm này dùng để clear danh sách lịch trình.
-   * @returns 
-   */
-  const clearSchedules = () => setData({...data, schedules: undefined});
-  /**
-   * Hàm này dùng để clear một lịch trình nào đó trong danh sách.
-   * @param id Id của lịch trình.
-   * @returns 
-   */
-  const removeSchedule = (id: string) => {
-    if(schedules![id]) return;
-    let cpSchedules = Object.assign({}, schedules);
-    delete cpSchedules[id];
-    setData({...data, schedules: {...cpSchedules}});
-  }
-
-  return {
-    schedules,
-    findSchedule,
-    addSchedule,
-    updateShedule,
-    clearSchedules,
-    removeSchedule
-  }
 }
