@@ -8,6 +8,10 @@
   padding: 12px 18px;
 }
 
+.btn-full-width {
+  width: 100%;
+}
+
 .btn,
 .btn * {
   font-weight: 700;

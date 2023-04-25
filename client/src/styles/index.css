@@ -1,7 +1,9 @@
-@import url('./variables.css');
 @import url('./shapes.css');
-@import url('./variables.css');
 @import url('./buttons.css');
+@import url('./share.css');
+@import url('./spacing.css');
+@import url('./typography.css');
+@import url('./variables.css');
 @import url('https://cdn.jsdelivr.net/gh/SebastianAigner/twemoji-amazing/twemoji-amazing.css');
 
 /*
@@ -25,12 +27,23 @@ html {
   font-size: 16px;
 }
 
-a, button {
+a,
+button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
   cursor: pointer;
+}
+
+input[type=button],
+input[type=submit],
+input[type=reset] {
+  padding: 12px 18px;
 }
 
 a {
   text-decoration: none;
+  color: var(--clr-primary);
 }
 
 ul, ol {

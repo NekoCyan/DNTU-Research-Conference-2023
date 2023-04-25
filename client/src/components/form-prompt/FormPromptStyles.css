@@ -1,0 +1,29 @@
+.formprompt {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: calc(1920px - 1080px);
+  min-width: 300px;
+  height: 100vh;
+  flex-grow: 1;
+  background-color: var(--clr-background);
+}
+
+.formprompt * {
+  color: var(--clr-onBackground);;
+}
+
+.prompt-form-content {
+  overflow-y: scroll;
+}
+
+.prompt-form-content::-webkit-scrollbar {
+  display: none;
+}
+
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
