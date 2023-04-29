@@ -3,7 +3,7 @@ import React from "react";
 import {
   AppContextValues,
   UserProps,
-  ScheduleProps,
+  ItineraryProps,
   ManifoldProps
 } from 'src/types'
 
@@ -15,20 +15,20 @@ import {
 
 export const AppContext = React.createContext<AppContextValues>({
   user: undefined,
-  schedules: undefined,
+  itineraries: undefined,
   manifold: {
     isSplashVisible: true,
     isLogin: false
   },
   setManifold: () => {},
-  setSchedules: () => {},
+  setItineraries: () => {},
   setUser: () => {}
 });
 
 let childrenRef: any;
 let valueRef: any;
 let userRef: any;
-let schedulesRef: any;
+let itinerarysRef: any;
 let manifoldRef: any;
 
 /**
@@ -46,30 +46,30 @@ export function AppProvider({
   if(!childrenRef) childrenRef = children;
 
   const [user, setUser] = React.useState<UserProps | undefined>(undefined);
-  const [schedules, setSchedules] = React.useState<ScheduleProps | undefined>(undefined);
+  const [itineraries, setItineraries] = React.useState<ItineraryProps | undefined>(undefined);
   const [manifold, setManifold] = React.useState<ManifoldProps>({
     isSplashVisible: true,
     isLogin: false
   });
 
   // if(!userRef) userRef = user
-  // if(!schedulesRef) schedulesRef = schedules
+  // if(!itinerarysRef) itinerarysRef = itineraries
   // if(!manifoldRef) manifoldRef = manifold
 
   let value: AppContextValues = React.useMemo(() => ({
     user,
-    schedules,
+    itineraries,
     manifold,
     setUser,
-    setSchedules,
+    setItineraries,
     setManifold
-  }), [user, schedules, manifold]);
+  }), [user, itineraries, manifold]);
 
   // if(!valueRef) valueRef = value;
   // console.log("MANIFOLD: ", manifold);
   // console.log("USER: ", user);
   // console.log("COMPARE USER: ", userRef === user);
-  // console.log("COMPARE SCHEDULES: ", schedulesRef === schedules);
+  // console.log("COMPARE SCHEDULES: ", itinerarysRef === itineraries);
   // console.log("COMPARE MANIFOLD: ", manifoldRef === manifold);
   // console.log("COMPARE CHILDREN: ", childrenRef === children);
   // console.log("COMPARE VALUE: ", valueRef === value);

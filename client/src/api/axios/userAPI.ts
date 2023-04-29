@@ -1,4 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { toast } from 'react-toastify';
 
 import { readCookie, TOKEN_NAME } from 'src/utils/cookie';
 
@@ -16,7 +17,8 @@ export function configureGetMyInfoAsyncFunc(_instance: AxiosInstance) {
       let url = userAPIBase + '/me';
       return await _instance.get(url, options);
     } catch (error: any) {
-      
+      // Phuong: Annmounce this error by toasting
+      toast.error('Error cookie: ' + error)
     }
   }
 }

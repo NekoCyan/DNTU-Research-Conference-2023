@@ -12,7 +12,7 @@ export default function Splash() {
   return (
     <div className='splash'>
       <p className='fw-bold fs-2'>DNTU</p>
-      <p className='fw-bold fs-2 txt-clr-primary'>Travel Schedule</p>
+      <p className='fw-bold fs-2 txt-clr-primary'>Travel Itinerary</p>
     </div>
   )
 }

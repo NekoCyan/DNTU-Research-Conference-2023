@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import { toast } from 'react-toastify';
 
 const authAPIBase = 'auth';
 
@@ -12,7 +13,8 @@ export function configureLoginAsyncFunc(_instance: AxiosInstance) {
       }
       return await _instance.post(url, body);
     } catch (error: any) {
-      // Handle lỗi tại đây
+      // Phuong: Annmounce this error by toasting
+      toast.error('Error when login: ' + error)
     }
   }
 }
@@ -29,7 +31,8 @@ export function configureRegisterAsyncFunc(_instance: AxiosInstance) {
       }
       return await _instance.post(url, body);
     } catch (error: any) {
-      // Handle lỗi tại đây
+      // Phuong: Annmounce this error by toasting
+      toast.error('Error when register: ' + error)
     }
   }
 }

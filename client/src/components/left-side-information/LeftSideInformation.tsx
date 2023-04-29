@@ -7,7 +7,7 @@ import {
 
 import { useAuth } from 'src/hooks/useAuth'
 import { useModal } from 'src/hooks/useModal'
-import { useSchedules } from 'src/hooks/useSchedules'
+import { useItineraries } from 'src/hooks/useItineraries'
 import { useUser } from 'src/hooks/useUser'
 
 import './LeftSideInformationStyles.css'
@@ -16,7 +16,7 @@ export default function LeftSideInformation() {
   const { hide } = useModal();
   const { user, clearUser } = useUser();
   const { updateLoginStatus } = useAuth();
-  const { schedules } = useSchedules();
+  const { itineraries } = useItineraries();
 
   const handleLogout = () => {
     removePersistentCookie(TOKEN_NAME);
@@ -43,7 +43,7 @@ export default function LeftSideInformation() {
           </p>
           <div className='ps-3 mt-2'>
             { 
-              !schedules && (
+              !itineraries && (
                 <p className='fs-3 flex ait-center ps-3'>
                   <i className="twa twa-prohibited"></i>
                   <span className='ms-2'>Bạn chưa có lịch trình.</span>

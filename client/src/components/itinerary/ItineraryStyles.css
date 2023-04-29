@@ -1,4 +1,4 @@
-.schedule {
+.itinerary {
   width: 100%;
   min-width: 300px;
   height: 100vh;
@@ -6,11 +6,11 @@
   background-color: var(--clr-onBackground);
 }
 
-.schedule * {
+.itinerary * {
   color: var(--clr-background);
 }
 
-.schedule-bot-btn-container {
+.itinerary-bot-btn-container {
   left: 0;
   bottom: 0;
 }

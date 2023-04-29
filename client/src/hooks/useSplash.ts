@@ -1,25 +1,35 @@
 import React from 'react'
 
-import { AppContext } from 'src/contexts/AppContext'
+import { useSelector, useDispatch } from 'react-redux'
+import { selectCurrentManifold, updateCurrentManifold } from 'src/redux/manifold/ManifoldSlice'
 
 /**
  * 
  */
 export function useSplash() {
-  const { manifold, setManifold } = React.useContext(AppContext);
+  const manifold = useSelector(selectCurrentManifold)
+  const dispatch = useDispatch()
   const { isSplashVisible } = manifold;
 
   /**
    * Hàm này dùng để show Splash
    */
   const showSplash = () => {
-    if(!isSplashVisible) setManifold(prevManifold => ({...prevManifold, isSplashVisible: true}))
+    if(!isSplashVisible) 
+      dispatch(updateCurrentManifold({
+        ...manifold,
+        isSplashVisible: true
+      }))
   }
   /**
    * Hàm này dùng để hide Splash
    */
   const hideSplash = () => {
-    if(isSplashVisible) setManifold(prevManifold => ({...prevManifold, isSplashVisible: false}))
+    if(isSplashVisible)
+      dispatch(updateCurrentManifold({
+        ...manifold,
+        isSplashVisible: false
+      }))
   }
 
   return {

@@ -101,7 +101,7 @@ export default function Login() {
       {/* Login introduction */}
       <div className='auth-sub-container flex flex-col mb-2'>
         <p className='introduction-text fs-1'>Chào mừng đến với</p>
-        <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Scheduler</p>
+        <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itineraryr</p>
       </div>
 
       {/* Login form */}
