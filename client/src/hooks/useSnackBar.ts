@@ -1,10 +1,11 @@
 import React from "react";
 
-import { ModalContext } from "src/contexts/ModalContext";
-
 import {
   SnackBarDataProps
 } from 'src/types'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { selectCurrentModal, updateCurrentModal } from "src/redux/modal/ModalSlice";
 
 /**
  * __Custom Hook__
@@ -13,7 +14,8 @@ import {
  * @returns 
  */
 export function useSnackBar() {
-  let { data, setData } = React.useContext(ModalContext);
+  const data = useSelector(selectCurrentModal) 
+  const dispatch = useDispatch()
   let { snackBars } = data;
 
   /**
@@ -30,12 +32,10 @@ export function useSnackBar() {
     color?: "error" | "success" | "warning" | "info",
     duration?: number
   ) => {
-    setData(prevState => {
-      let cpSnackBars = prevState.snackBars.slice();
-      let newSnackBar: SnackBarDataProps = {title, message, color, duration, id: message + Date.now()};
-      cpSnackBars.push(newSnackBar)
-      return {...prevState, currentItemName: "snack-bar", hasDarkBG: false, snackBars: cpSnackBars}
-    })
+    let cpSnackBars = data.snackBars.slice();
+    let newSnackBar: SnackBarDataProps = {title, message, color, duration, id: message + Date.now()};
+    cpSnackBars.push(newSnackBar)
+    dispatch(updateCurrentModal({...data, currentItemName: "snack-bar", hasDarkBG: false, snackBars: cpSnackBars}))
   }
 
   /**
@@ -43,14 +43,12 @@ export function useSnackBar() {
    * @param id Id của snack bar.
    */
   const removeSnackBar = (id: string) => {
-    setData(prevState => {
-      let cpSnackBars = prevState.snackBars?.slice();
-      let index = cpSnackBars.findIndex(snackBar => snackBar.id === id);
-      if(prevState.snackBars.length === 1) cpSnackBars = [];
-      else cpSnackBars.splice(index, 1);
-      if(cpSnackBars.length === 0) return {...prevState, currentItemName: "", hasDarkBG: false, snackBars: cpSnackBars}
-      return {...prevState, hasDarkBG: false, snackBars: cpSnackBars}
-    })
+    let cpSnackBars = data.snackBars?.slice();
+    let index = cpSnackBars.findIndex((snackBar: any) => snackBar.id === id);
+    if(data.snackBars.length === 1) cpSnackBars = [];
+    else cpSnackBars.splice(index, 1);
+    if(cpSnackBars.length === 0) return dispatch(updateCurrentModal({...data, currentItemName: "", hasDarkBG: false, snackBars: cpSnackBars}))
+    dispatch(updateCurrentModal({...data, hasDarkBG: false, snackBars: cpSnackBars}))
   }
 
   return {

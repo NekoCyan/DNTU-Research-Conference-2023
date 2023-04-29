@@ -2,13 +2,13 @@ import React from 'react'
 
 import { useModal } from 'src/hooks/useModal';
 
-import './ScheduleStyles.css'
+import './ItineraryStyles.css'
 
-function Schedule() {
+function Itinerary() {
   const { show } = useModal();
 
   return (
-    <div className='schedule p-xxl'>
+    <div className='itinerary p-xxl'>
       {/* Introduce */}
       <div>
         <p className='fs-xxl fw-bold flex ait-center'>
@@ -17,7 +17,7 @@ function Schedule() {
         <p className='fs-3 mb-xxl'>Bạn không biết đi đâu? Vậy thì tạo lịch trình thôi!</p>
         <p>Xin chào các bạn, mình sẽ hỗ trợ cho các bạn về việc lên kế hoạch đi du lịch, ngắn hạn hoặc dài hạn. Mình sẽ đưa cho các bạn các thông tin cần thiết để chuẩn bị tốt nhất cho chuyến đi.</p>
       </div>
-      <div className='pos-fixed schedule-bot-btn-container p-xxl'>
+      <div className='pos-fixed itinerary-bot-btn-container p-xxl'>
         <button 
           className='btn btn-20percent-background rounded-8'
           onClick={e => show("side")}
@@ -29,4 +29,4 @@ function Schedule() {
   )
 }
 
-export default React.memo(Schedule)
+export default React.memo(Itinerary)

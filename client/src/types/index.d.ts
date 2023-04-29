@@ -11,7 +11,7 @@ export interface UserProps {
   userId: string
 }
 
-export interface ScheduleProps {
+export interface ItineraryProps {
   _id?: string,
   name?: string,
   color?: string,
@@ -25,16 +25,16 @@ export interface ManifoldProps {
 
 export interface AppContextDataProps {
   user?: UserProps,
-  schedules?: {[key: string]: SheduleProps},
+  itineraries?: {[key: string]: SheduleProps},
   manifold: ManifoldProps
 }
 
 export interface AppContextValues {
   user?: UserProps,
-  schedules?: {[key: string]: SheduleProps},
+  itineraries?: {[key: string]: SheduleProps},
   manifold: ManifoldProps,
   setUser: React.Dispatch<React.SetStateAction<UserProps | undefined>>,
-  setSchedules: React.Dispatch<React.SetStateAction<{[key: string]: SheduleProps} | undefined>>,
+  setItineraries: React.Dispatch<React.SetStateAction<{[key: string]: SheduleProps} | undefined>>,
   setManifold: React.Dispatch<React.SetStateAction<ManifoldProps>>
 }
 

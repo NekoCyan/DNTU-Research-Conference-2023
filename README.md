@@ -3,7 +3,7 @@
   <a align="left" href="https://sv.dntu.edu.vn"><img src="https://sv.dntu.edu.vn/images/dntu-logo.png" alt="DNTU-Logo" style="width: 80px; float: left;"/></a>
   DNTU Research Conference 2023
   <br>
-  Travel Schedules with AI Technology
+  Travel Itineraries with AI Technology
  </h1>
 </div>
 

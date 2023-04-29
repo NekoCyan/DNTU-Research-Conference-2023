@@ -1,8 +1,8 @@
 import React from "react";
 
-import { ModalContext } from "src/contexts/ModalContext";
 
-import { UserProps } from "src/types";
+import { useSelector, useDispatch } from 'react-redux'
+import { selectCurrentModal, updateCurrentModal } from "src/redux/modal/ModalSlice";
 
 /**
  * __Custom Hook__
@@ -12,7 +12,8 @@ import { UserProps } from "src/types";
  * @returns 
  */
 export function useModal() {
-  const { data, setData } = React.useContext(ModalContext);
+  const data = useSelector(selectCurrentModal) 
+  const dispatch = useDispatch()
   const { currentItemName } = data;
   /**
    * Hàm này dùng để show một item nào đó trong Modal, bắng cách
@@ -20,12 +21,12 @@ export function useModal() {
    * @param item Tên của một item trong Modal
    * @returns 
    */
-  const show = (item: string, hasDarkBG: boolean = true) => setData(prevState => ({...prevState, currentItemName: item, hasDarkBG: hasDarkBG}));
+  const show = (item: string, hasDarkBG: boolean = true) => dispatch(updateCurrentModal({...data, currentItemName: item, hasDarkBG: hasDarkBG}))
   /**
    * Hàm này dùng để ẩn đi item trong modal.
    * @returns 
    */
-  const hide = () => setData(prevState => ({...prevState, currentItemName: ""}));
+  const hide = () => dispatch(updateCurrentModal({...data, currentItemName: ""}));
   return {
     currentItemName,
     show,
