@@ -106,7 +106,7 @@ export default function Register() {
       {/* Login introduction */}
       <div className='auth-sub-container flex flex-col mb-2'>
         <p className='introduction-text fs-1'>Đăng ký tài khoản</p>
-        <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itineraryr</p>
+        <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itinerary</p>
       </div>
 
       {/* Register form */}

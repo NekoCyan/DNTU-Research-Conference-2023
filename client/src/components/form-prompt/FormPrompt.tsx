@@ -9,6 +9,7 @@ import {
 import { useSplash } from 'src/hooks/useSplash';
 
 import Input from '../input/Input'
+import Select from '../select/Select';
 
 import './FormPromptStyles.css'
 import { toThousandsSeparatedNumber, toIntNumber } from 'src/utils/number';
@@ -40,8 +41,8 @@ function FormPrompt() {
   console.log("RENDER: FormPrompt");
 
   return (
-    <form id="prompt-form" onSubmit={onSubmitPrompt} className='formprompt p-xxl'>
-      <div className='prompt-form-content'>
+    <form id="prompt-form" onSubmit={onSubmitPrompt} className='formprompt px-xxl pb-xxl'>
+      <div className='formprompt-content'>
         {
           renderForm(
             formPromt,
@@ -52,7 +53,7 @@ function FormPrompt() {
                     label={
                       input.label && (
                         <>
-                          <i className={`twa twa-${input.label!.icon}`}></i> <span className='fw-bold'>{input.label!.text}</span> {input.label!.sub}
+                          {input.label!.icon && <i className={`twa twa-${input.label!.icon} me-1`}></i>}<span className='fw-bold'>{input.label!.text}</span> {input.label!.sub}
                         </>
                       )
                     }
@@ -71,7 +72,7 @@ function FormPrompt() {
                         label={
                           input.label && (
                             <>
-                              <i className={`twa twa-${input.label!.icon}`}></i> <span className='fw-bold'>{input.label!.text}</span> {input.label!.sub}
+                              {input.label!.icon && <i className={`twa twa-${input.label!.icon}`}></i>}<span className='fw-bold'>{input.label!.text}</span> {input.label!.sub}
                             </>
                           )
                         }
@@ -85,14 +86,15 @@ function FormPrompt() {
                 </div>
             ),
             group => (
-              <div key={group.baseName}>
+              <div className="mb-4" key={group.baseName}>
                   <p className='fw-bold fs-3 mb-1'>{group.groupChipLabel}</p>
-                  <div className='chips-container'>
+                  <div className='formprompt-chips-container'>
                     {
                       group.inputs.map(input => (
                         <Input
-                          type='chip'
-                          label={input.label && <><i className={`twa twa-${input.label.icon}`}></i> {input.label.text}</>}
+                          {...input.props}
+                          type={input.type}
+                          label={input.label && <>{input.label.icon && <i className={`twa twa-${input.label.icon}`}></i>}{input.label.text && " " + input.label.text}</>}
                           labelInputClassName='me-1'
                           name={input.name}
                           key={input.value}
@@ -102,16 +104,92 @@ function FormPrompt() {
                   </div>
                 </div>
             ),
+            select => {
+              let options = select.options;
+              return (
+                <div className="mb-4" key={select.name}>
+                  <Select
+                    label={
+                      select.label && (
+                        <>
+                          {select.label!.icon && <i className={`twa twa-${select.label!.icon}`}></i>}<span className='fw-bold'>{select.label!.text}</span> {select.label!.sub}
+                        </>
+                      )
+                    }
+                    name={select.name}
+                    {...select.props}
+                  >
+                    {
+                      options.map(option => (
+                        <Select.Option
+                          value={option.value}
+                          key={option.name}
+                        >{option.label}</Select.Option>
+                      ))
+                    }
+                  </Select>
+                </div>
+              )
+            },
+            group => {
+              let selects = group.selects;
+              return (
+                <div className="flex flex-rw jc-space-between mb-4" key={group.baseName}>
+                  {
+                    selects.map(select => {
+                      let options = select.options;
+                      let selectContainerClassName =
+                        select.containerClassName
+                        ? "formprompt-select-container" + " " + select.containerClassName
+                        : "formprompt-select-container";
+                      return (
+                        <div
+                          className={selectContainerClassName}
+                          key={select.name}
+                        >
+                          <Select
+                            label={
+                              select.label && (
+                                <>
+                                  {select.label!.icon && <i className={`twa twa-${select.label!.icon}`}></i>}<span className='fw-bold'>{select.label!.text}</span> {select.label!.sub}
+                                </>
+                              )
+                            }
+                            name={select.name}
+                            {...select.props}
+                          >
+                            {
+                              options.map(option => (
+                                <Select.Option
+                                  value={option.value}
+                                  key={option.name}
+                                >{option.label}</Select.Option>
+                              ))
+                            }
+                          </Select>
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+              )
+            },
             formPromtKeys
           )
         }
       </div>
 
-      <div>
-        <button 
-          className='btn btn-primary rounded-8'
-          type='submit'
-        >Tạo lịch trình</button>
+      <div className='formprompt-controll-container pt-2'>
+        <div className='flex flex-rw'>
+          <button 
+            className='btn btn-primary rounded-8 me-2'
+            type='submit'
+          >Tạo lịch trình</button>
+          <button 
+            className='btn btn-20percent-background rounded-8'
+            type='submit'
+          >Lưu lịch trình</button>
+        </div>
       </div>
     </form>
   )
@@ -137,7 +215,7 @@ export default React.memo(FormPrompt);
         return (
           <div key={group.baseName}>
             <p className='fw-bold fs-3 mb-1'>{group.groupChipLabel}</p>
-            <div className='chips-container'>
+            <div className='formprompt-chips-container'>
               {
                 group.inputs.map(input => (
                   <Input
@@ -227,7 +305,7 @@ export default React.memo(FormPrompt);
   </div>
   <div>
     <p className='fw-bold fs-3 mb-1'>Bạn bị hấp dẫn bởi:</p>
-    <div className='chips-container'>
+    <div className='formprompt-chips-container'>
       {
         INTEREST_CHIPS.map((interestChip: ChipInputDataProps) => (
           <Input

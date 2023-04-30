@@ -14,16 +14,24 @@
   color: var(--clr-onBackground);;
 }
 
-.prompt-form-content {
+.formprompt-content {
   overflow-y: scroll;
 }
 
-.prompt-form-content::-webkit-scrollbar {
+.formprompt-content::-webkit-scrollbar {
   display: none;
 }
 
-.chips-container {
+.formprompt-chips-container {
   display: flex;
   flex-wrap: wrap;
   row-gap: 8px;
+}
+
+.formprompt-select-container {
+  width: 100%;
+}
+
+.formprompt-controll-container {
+  background-color: var(--clr-background);
 }

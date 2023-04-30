@@ -18,14 +18,7 @@ export function useUser() {
    * Hàm này dùng để update thông tin cho `user`.
    * @returns
    */
-  const updateUser = (newUser: UserProps) => 
-  dispatch(updateCurrentUser({...user, ...newUser}))
-  /**
-   * Hàm này nhận vào thông tin của user, và gán thông tin này cho `user`.
-   * @param newUser Thông tin mới của người dùng.
-   * @returns 
-   */
-  const setNewUser = (newUser: UserProps) => dispatch(updateCurrentUser({...newUser}));
+  const updateUser = (newUser: UserProps) => dispatch(updateCurrentUser(newUser));
   /**
    * Hàm này dùng để clear `user`.
    * @returns
@@ -35,7 +28,6 @@ export function useUser() {
   return {
     user,
     updateUser,
-    setNewUser,
     clearUser
   }
 }

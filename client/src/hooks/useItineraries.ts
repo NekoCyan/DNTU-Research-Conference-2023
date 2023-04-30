@@ -3,7 +3,13 @@ import React from "react";
 import { ItineraryProps } from "src/types";
 
 import { useSelector, useDispatch } from 'react-redux'
-import { selectCurrentItineraries, updateCurrentItineraries } from "src/redux/itineraries/ItinerariesSlice";
+import {
+  selectCurrentItineraries,
+  updateCurrentItineraries,
+  updateItinerary,
+  removeFromItineraries,
+  addToItineraries
+} from "src/redux/itineraries/ItinerariesSlice";
 
 export function useItineraries() {
   const itineraries = useSelector(selectCurrentItineraries)
@@ -15,28 +21,22 @@ export function useItineraries() {
    * @param id Id của itinerary. Id này là id của shedule trong MongoDB.
    * @returns 
    */
-  const findItinerary = (id: string) => itineraries![id];
+  const findItinerary = (id: string) => itineraries!.find(itinerary => itinerary._id === id);
   /**
    * Hàm này sẽ add một lịch trình vào trong danh sách lịch trình.
    * @param itinerary Thông tin đầy đủ của một lịch trình.
    * @returns 
    */
   const addItinerary = (itinerary: ItineraryProps) => {
-    if(itineraries![itinerary._id!]) return;
-    let cpItineraries = Object.assign({}, itineraries);
-    cpItineraries[itinerary._id!] = itinerary;
-    dispatch(updateCurrentItineraries({...cpItineraries}))
+    dispatch(addToItineraries(itinerary))
   }
   /**
    * Hàm này dùng để update một lịch trình nào đó trong danh sách lịch trình.
    * @param itinerary Một phần thông tin của lịch trình.
    * @returns 
    */
-  const updateShedule = (itinerary: ItineraryProps) => {
-    if(itineraries![itinerary._id!]) return;
-    let cpItineraries = Object.assign({}, itineraries);
-    cpItineraries[itinerary._id!] = Object.assign(cpItineraries[itinerary._id!], itinerary);
-    dispatch(updateCurrentItineraries({...cpItineraries}))
+  const updateOneItinerary = (id: string, itinerary: ItineraryProps) => {
+    dispatch(updateItinerary({id, itinerary}));
   }
   /**
    * Hàm này dùng để clear danh sách lịch trình.
@@ -49,17 +49,14 @@ export function useItineraries() {
    * @returns 
    */
   const removeItinerary = (id: string) => {
-    if(itineraries![id]) return;
-    let cpItineraries = Object.assign({}, itineraries);
-    delete cpItineraries[id];
-    dispatch(updateCurrentItineraries({...cpItineraries}))
+    dispatch(removeFromItineraries(id))
   }
 
   return {
     itineraries,
     findItinerary,
     addItinerary,
-    updateShedule,
+    updateOneItinerary,
     clearItineraries,
     removeItinerary
   }

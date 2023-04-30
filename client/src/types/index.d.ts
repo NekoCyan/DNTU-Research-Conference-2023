@@ -1,7 +1,9 @@
 import React,
 {
   InputHTMLAttributes,
-  HTMLInputTypeAttribute
+  HTMLInputTypeAttribute,
+  SelectHTMLAttributes,
+  OptionHTMLAttributes
 } from "react"
 
 export interface UserProps {
@@ -72,7 +74,14 @@ export interface ModalItemProps {
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string | (() => JSX.Element) | JSX.Element,
   labelInputClassName?: string,
-  type?: HTMLInputTypeAttribute | 'chip',
+  type?: HTMLInputTypeAttribute | 'chip' | 'radio-chip',
+}
+
+export interface SelectOptionProps extends OptionHTMLAttributes<HTMLOptionElement> {}
+
+export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  label: JSX.Element | string,
+  children: JSX.Element | Array<JSX.Element>
 }
 
 export interface ResponseData {
@@ -82,26 +91,30 @@ export interface ResponseData {
   message: string
 }
 
-export interface InputDataProps {
+export interface FormElementDataProps {
+  elementType: "input" | "chip" | "select" | "group-input" | "group-chip-input" | "group-select"
+}
+
+export interface FormElementLabelDataProps {
+  icon?: string,
+  text?: string,
+  sub?: string,
+}
+
+export interface InputDataProps extends FormElementDataProps {
   name: string,
-  label?: {
-    icon?: string,
-    text?: string,
-    sub?: string,
-  },
-  type: HTMLInputTypeAttribute | 'chip',
+  label?: FormElementLabelDataProps,
+  type: HTMLInputTypeAttribute | 'chip' | 'radio-chip',
   props?: InputHTMLAttributes<HTMLInputElement>,
   labelInputClassName?: string
 }
 
-export interface GroupInputsDataProps {
-  isGroup: boolean,
+export interface GroupInputsDataProps extends FormElementDataProps {
   baseName: string,
   inputs: Array<ChipInputDataProps | TextInputDataProps>
 }
 
 export interface GroupChipInputsDataProps extends GroupInputsDataProps {
-  isChipGroup: boolean,
   groupChipLabel: string,
   inputs: Array<ChipInputDataProps>
 }
@@ -115,4 +128,24 @@ export interface TextInputDataProps extends InputDataProps {
     pattern?: RegExp,
     errorMessage?: string
   },
+}
+
+export interface SelectOptionDataProps {
+  label: string | JSX.Element,
+  name: string,
+  value: string,
+  props?: OptionHTMLAttributes<HTMLOptionElement>
+}
+
+export interface SelectDataProps extends FormElementDataProps {
+  label: FormElementLabelDataProps,
+  name: string,
+  options: Array<SelectOptionDataProps>,
+  containerClassName?: string,
+  props?: SelectHTMLAttributes<HTMLSelectElement>
+}
+
+export interface GroupSelectDataProps extends FormElementDataProps {
+  baseName: string,
+  selects: Array<SelectDataProps>
 }

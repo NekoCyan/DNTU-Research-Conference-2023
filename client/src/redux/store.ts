@@ -14,7 +14,7 @@ const persistConfig = {
   key: 'root',
   // luu tru o local storage
   storage: storage,
-  whitelist: ['user'] // định nghĩa các slice được phép duy trì qua mỗi lần f5 trình duyệt
+  whitelist: [] // định nghĩa các slice được phép duy trì qua mỗi lần f5 trình duyệt
   // blacklist: ['user'] // // định nghĩa các slice không được phép duy trì qua mỗi lần f5 trình duyệt
 }
 

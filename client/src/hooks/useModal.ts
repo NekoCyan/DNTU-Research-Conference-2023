@@ -2,7 +2,7 @@ import React from "react";
 
 
 import { useSelector, useDispatch } from 'react-redux'
-import { selectCurrentModal, updateCurrentModal } from "src/redux/modal/ModalSlice";
+import { selectCurrentItemState, updateCurrentItem } from "src/redux/modal/ModalSlice";
 
 /**
  * __Custom Hook__
@@ -12,23 +12,27 @@ import { selectCurrentModal, updateCurrentModal } from "src/redux/modal/ModalSli
  * @returns 
  */
 export function useModal() {
-  const data = useSelector(selectCurrentModal) 
-  const dispatch = useDispatch()
-  const { currentItemName } = data;
+  const { currentItemName, hasDarkBG } = useSelector(selectCurrentItemState) 
+  const dispatch = useDispatch();
   /**
    * Hàm này dùng để show một item nào đó trong Modal, bắng cách
    * assign giá trị mới cho `currentItem`.
    * @param item Tên của một item trong Modal
    * @returns 
    */
-  const show = (item: string, hasDarkBG: boolean = true) => dispatch(updateCurrentModal({...data, currentItemName: item, hasDarkBG: hasDarkBG}))
+  const show = (item: string, hasDarkBG: boolean = true) => {
+    dispatch(updateCurrentItem({currentItemName: item, hasDarkBG: hasDarkBG}))
+  }
   /**
    * Hàm này dùng để ẩn đi item trong modal.
    * @returns 
    */
-  const hide = () => dispatch(updateCurrentModal({...data, currentItemName: ""}));
+  const hide = () => {
+    dispatch(updateCurrentItem({currentItemName: "", hasDarkBG: false}))
+  }
   return {
     currentItemName,
+    hasDarkBG,
     show,
     hide
   }

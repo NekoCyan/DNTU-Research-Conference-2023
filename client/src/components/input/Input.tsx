@@ -16,10 +16,14 @@ function I__Chip({
 ref: React.ForwardedRef<HTMLInputElement>
 ) {
   props.className = "input-chip";
-  props.type = "checkbox";
+  let type = props.type === "chip" ? "checkbox" : props.type === "radio-chip" ? "radio" : "";
+  if(type === "") {
+    console.log("Chip must be have specific type: chip or radio-chip");
+    return null;
+  }
   return (
     <label className={`label-input-chip${labelInputClassName ? " " + labelInputClassName : ""}`}>
-      <input ref={ref} {...props} />
+      <input ref={ref} {...props} type={type} />
       <span className='input-chip-check rounded-4'>
         {
           label
@@ -101,7 +105,8 @@ function I__({
 ref: React.ForwardedRef<HTMLInputElement>
 ) {
   switch(props.type) {
-    case 'chip': {
+    case 'chip':
+    case 'radio-chip': {
       return <InputChip label={label} labelInputClassName={labelInputClassName} {...props} ref={ref} />
     };
 

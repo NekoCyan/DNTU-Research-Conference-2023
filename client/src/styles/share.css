@@ -83,3 +83,8 @@
 .flex-wrap-re {
   flex-wrap: wrap-reverse;
 }
+
+/* BORDER */
+.border-clr-outline {
+  border: var(--border-2) var(--clr-outline);
+}

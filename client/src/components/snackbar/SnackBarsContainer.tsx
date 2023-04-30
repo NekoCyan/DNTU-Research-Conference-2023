@@ -8,7 +8,7 @@ import './SnackBarStyles.css'
 
 export default function SnackBarsContainer() {
   const { snackBars, removeSnackBar } = useSnackBar();
-
+  console.log("SNACKBARS: ", snackBars);
   const SnackBars = React.useMemo(() => {
     let amountOfSnackBars = snackBars.length;
     return snackBars.map((snackBar, index) => {

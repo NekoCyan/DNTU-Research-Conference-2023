@@ -57,3 +57,15 @@ export function deepCompare(a: any, b: any) {
   }
   return check;
 }
+
+/**
+ * Trả về một mảng mới đã remove item theo `condition`. Không nên dùng mảng
+ * quá sâu.
+ * @param arr 
+ * @param selectValueToCompare 
+ */
+export function removeFrom<T>(arr: Array<T>, selectValueToCompare: (ele: T, index: number) => any, value: any) {
+  if(arr.length === 1) return [];
+  let cpArr = arr.slice();
+  return cpArr.filter((ele, index) => selectValueToCompare(ele, index) !== value)
+}

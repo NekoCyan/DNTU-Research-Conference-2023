@@ -19,15 +19,14 @@ export default function SnackBar(props: SnackBarProps) {
       props.onClose();
     }, props.data.duration || 3000 )
   }, [])
-
-  props.data.color = props.data.color ? props.data.color : "info";
+  let color = props.data.color ? props.data.color : "info";
   return (
     <div 
       className={
-        `snack-bar-container px-3 py-2 rounded-8 ${props.data.color} ${props.containerClassName}`
+        `snack-bar-container px-3 py-2 rounded-8 ${color} ${props.containerClassName}`
       }
     >
-      <span className={`fw-bold txt-clr-${props.data.color === "info" ? "primary" : props.data.color}`}>{props.data.title}:</span> {props.data.message}
+      <span className={`fw-bold txt-clr-${color === "info" ? "primary" : color}`}>{props.data.title}:</span> {props.data.message}
     </div>
   )
 }

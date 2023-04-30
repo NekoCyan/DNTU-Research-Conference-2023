@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ModalContext } from 'src/contexts/ModalContext';
+import { useModal } from 'src/hooks/useModal';
 
 import {
   ModalProps,
@@ -8,8 +8,6 @@ import {
 } from 'src/types'
 
 import './ModalStyles.css'
-
-
 
 function Item({
   name,
@@ -28,7 +26,7 @@ function Item({
 }
 
 export default function Modal({children}: ModalProps) {
-  const context = React.useContext(ModalContext);
+  const { currentItemName, hasDarkBG } = useModal();
   const items: {[key: string]: JSX.Element} = React.useMemo(() => {
     if(!Array.isArray(children)) {
       return ({
@@ -45,9 +43,11 @@ export default function Modal({children}: ModalProps) {
     }))
   }, [children]);
 
+  console.log("ITEM NAME: ", currentItemName);
+
   return (
-    <div className={`modal pos-fixed ${context.data.hasDarkBG ? "dark-bg" : ""} ${context.data.currentItemName === "" ? "hide" : "show"}`}>
-      {items[context.data.currentItemName]}
+    <div className={`modal pos-fixed ${hasDarkBG ? "dark-bg" : ""} ${currentItemName === "" ? "hide" : "show"}`}>
+      {items[currentItemName]}
     </div>
   )
 }

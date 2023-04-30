@@ -1,6 +1,8 @@
 import React, { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 
+import { toast } from 'react-toastify'
+
 import {
   writePersistentCookie,
   TOKEN_NAME
@@ -30,6 +32,8 @@ export default function Login() {
   const { login, updateLoginStatus } = useAuth();
   const { pushSnackBar } = useSnackBar();
 
+  console.log("RENDER: Login");
+
   const loginForm = React.useMemo(() => LOGIN_FORM, []);
   const loginFormKeys = React.useMemo(() => Object.keys(loginForm), [loginForm]);
 
@@ -45,17 +49,17 @@ export default function Login() {
       let form = e.target as HTMLFormElement;
       let username = form[USERNAME_INPUT_NAME].value;
       let password = form[PASSWORD_INPUT_NAME].value;
-      
+
       let registerResponse = await login(username!, password!);
       let resData: ResponseData = registerResponse?.data;
       if(resData.isError) throw new Error(resData.message);
+      toast.success(`Login: You login successfully.`);
       updateLoginStatus(true);
       let token = resData.data.token;
       writePersistentCookie(TOKEN_NAME, token, 1);
-      showSplash();
     } catch (error: any) {
       console.error(getErrorResponse(error));
-      pushSnackBar(getErrorResponse(error), "Login", "error")
+      toast.error(`Login: ${getErrorResponse(error)}`);
     }
   }
 
@@ -101,7 +105,7 @@ export default function Login() {
       {/* Login introduction */}
       <div className='auth-sub-container flex flex-col mb-2'>
         <p className='introduction-text fs-1'>Chào mừng đến với</p>
-        <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itineraryr</p>
+        <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itinerary</p>
       </div>
 
       {/* Login form */}
