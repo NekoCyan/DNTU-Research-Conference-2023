@@ -7,13 +7,11 @@ import {
 } from 'src/api'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { selectCurrentManifold, updateCurrentManifold } from "src/redux/manifold/ManifoldSlice";
+import { selectIsLoginState, updateIsLoginState } from "src/redux/manifold/ManifoldSlice";
 
 export function useAuth() {
-
-  const manifold = useSelector(selectCurrentManifold)
+  const isLogin = useSelector(selectIsLoginState)
   const dispatch = useDispatch()
-  const { isLogin } = manifold;
   
   /**
    * Hàm này dùng để update trạng thái đăng nhập.
@@ -22,10 +20,7 @@ export function useAuth() {
    */
   const updateLoginStatus = (isLogin: boolean) => {
     console.log("updateLoginStatus IS CALLED WITH VALUE: ", isLogin);
-    dispatch(updateCurrentManifold({
-      ...manifold,
-      isLogin: isLogin
-    }))
+    dispatch(updateIsLoginState(isLogin))
   }
   /**
    * Hàm này dùng để đăng nhập.

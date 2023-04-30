@@ -22,22 +22,20 @@ import Register from 'src/components/auth/Register';
 import { ResponseData } from 'src/types';
 
 export default function Root() {
-  const { user, setNewUser, clearUser } = useUser();
+  const { user, updateUser, clearUser } = useUser();
   const { isLogin, updateLoginStatus } = useAuth();
-  const { hideSplash, showSplash } = useSplash();
+  const { hideSplash } = useSplash();
   const { hide } = useModal();
 
   React.useEffect(() => {
-    console.log("IS LOGIN: ", isLogin);
-    console.log("USE EFFECT IN ROOL IS CALLED");
     async function auth() {
       try {
-        showSplash();
+        console.log("AUTH USER");
         let authRes = await getMyInfoAsync();
         let resData: ResponseData = authRes?.data;
         if(resData.isError) throw new Error(resData.message);
         console.log("AUTH: ", resData);
-        setNewUser(resData.data);
+        updateUser(resData.data);
         if(!isLogin) updateLoginStatus(true);
       } catch (error) {
         console.error(getErrorResponse(error))
@@ -45,19 +43,23 @@ export default function Root() {
         hideSplash();
       }
     }
+    console.log("IS LOGIN: ", isLogin);
+    console.log("USER: ", user);
     if(!user) auth();
-    if(user && !isLogin) { clearUser(); hide(); }
+    if(user && !isLogin) { console.log("LOGOUT"); clearUser(); hide(); }
   }, [isLogin]);
+
+  console.log("RENDER: Root");
 
   return (
     <Routes>
       {
         user
-        ? <Route path='/' Component={Main} />
+        ? <Route path='/' element={<Main />} />
         : (
           <>
-            <Route path='/' Component={Login} />
-            <Route path='/register' Component={Register} />
+            <Route path='/' element={<Login />} />
+            <Route path='/register' element={<Register />} />
           </>
         )
       }

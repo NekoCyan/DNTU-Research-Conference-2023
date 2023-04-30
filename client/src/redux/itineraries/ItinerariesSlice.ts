@@ -1,8 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 // import axios from 'axios'
 
+import { removeFrom } from 'src/utils/functions'
+
+import { ItineraryProps } from 'src/types'
+
 // Phương: Khởi tạo giá trị của một Slice trong redux
-const initialState = {
+const initialState: {itineraries: {[key: string]: ItineraryProps} | null} = {
   itineraries: null
 }
 
@@ -22,10 +26,42 @@ export const ItinerariesSlice = createSlice({
   reducers: {
     // Phương: Lưu ý luôn là ở đây cần cặp ngoặc nhọn cho function trong reducer cho dù code bên trong chỉ có 1 dòng, đây là rule của Redux
     // Phương: https:// Phương:redux-toolkit.js.org/usage/immer-reducers#mutating-and-returning-state
-    updateCurrentItineraries: (state, action) => {
+    /**
+     * Hàm này đùng dể update lịch trình của hành trình du lịch.
+     * @param state Toàn bộ state của Itineraries Slice.
+     * @param action 
+     */
+    updateCurrentItineraries: (state, action: {type: string, payload: {[key: string]: ItineraryProps} | null}) => {
       const itineraries = action.payload
-      state.itineraries = itineraries
-    }
+      state.itineraries = itineraries ? {...itineraries} : null;
+    },
+
+    updateItinerary: (state, action: {type: string, payload: {id: string, itinerary: ItineraryProps}}) => {
+      let { id, itinerary } = action.payload;
+      if(state.itineraries && state.itineraries[id]) {
+        state.itineraries![id] = Object.assign(state.itineraries![id], itinerary);
+      }
+    },
+    /**
+     * Thêm một du lịch trình hành trình du lịch vào danh sách.
+     * @param state Toàn bộ state của Itineraries Slice.
+     * @param action 
+     */
+    addToItineraries: (state, action: {type: string, payload: ItineraryProps}) => {
+      let itinerary = action.payload;
+      let id = itinerary._id!;
+      if(!state.itineraries) state.itineraries = {};
+      state.itineraries[id] = itinerary;
+    },
+    /**
+     * Bỏ một lịch trình hành trình du lịch khỏi danh sách.
+     * @param state Toàn bộ state của Itineraries Slice.
+     * @param action 
+     */
+    removeFromItineraries: (state, action: {type: string, payload: string}) => {
+      let id = action.payload;
+      if(state.itineraries) delete state.itineraries[id];
+    },
   }
   // ,
   // extraReducers: (builder) => {
@@ -42,11 +78,14 @@ export const ItinerariesSlice = createSlice({
 // Phương: Để ý ở trên thì không thấy properties actions đâu cả, bởi vì những cái actions này đơn giản là được thằng redux tạo tự động theo tên của reducer nhé.
 export const { 
   updateCurrentItineraries,
+  updateItinerary,
+  addToItineraries,
+  removeFromItineraries,
   // Phương
 } = ItinerariesSlice.actions
 
 // Phương: Selectors: mục đích là dành cho các components bên dưới gọi bằng useSelector() tới nó để lấy dữ liệu từ trong redux store ra sử dụng
-export const selectCurrentItineraries = (state: any) => {
+export const selectCurrentItineraries = (state: any): Array<ItineraryProps> | null => {
   return state.itineraries.itineraries
 }
 

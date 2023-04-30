@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-
 import axios from 'axios'
 
+import { UserProps } from 'src/types'
 
 // import { API_ROOT } from 'utilities/constants'
 // import { toast } from 'react-toastify'
 
 
 // Khởi tạo giá trị một giá trị của Slice trong Redux
-const initialState = {
+const initialState: {user: UserProps | null} = {
   user: null
 }
 
@@ -48,9 +48,14 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateCurrentUser: (state, action) => {
+    /**
+     * Hàm này dùng để update thông tin cho người dùng.
+     * @param state Toàn bộ state của User Slice.
+     * @param action 
+     */
+    updateCurrentUser: (state, action: {type: string, payload: UserProps | null}) => {
       const user = action.payload
-      state.user = user
+      state.user = user ? {...state.user, ...user} : user;
     }
   },
   extraReducers: (builder) => {
@@ -82,8 +87,12 @@ export const {
 
 // Selectors: mục đích là dành cho các components bên dưới gọi bằng useSelector() tới nó
 // để lấy dữ liệu từ trong redux store ra sử dụng
-
-export const selectCurrentUser = (state: any) => {
+/**
+ * Select ra dữ liệu của người dùng.
+ * @param state Toàn bộ state của Redux store.
+ * @returns 
+ */
+export const selectCurrentUser = (state: any): UserProps | null => {
   return state.user.user
 }
 

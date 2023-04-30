@@ -5,7 +5,12 @@ import {
 } from 'src/types'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { selectCurrentModal, updateCurrentModal } from "src/redux/modal/ModalSlice";
+import {
+  selectSnackBarsState,
+  addToSnackBarsState,
+  removeFromSnackBarsState,
+  updateCurrentItem
+} from "src/redux/modal/ModalSlice";
 
 /**
  * __Custom Hook__
@@ -14,9 +19,8 @@ import { selectCurrentModal, updateCurrentModal } from "src/redux/modal/ModalSli
  * @returns 
  */
 export function useSnackBar() {
-  const data = useSelector(selectCurrentModal) 
+  const snackBars = useSelector(selectSnackBarsState) 
   const dispatch = useDispatch()
-  let { snackBars } = data;
 
   /**
    * Hàm này dùng để push một snackbar. Nhận vào bao gồm các thông tin như bên dưới.
@@ -32,10 +36,8 @@ export function useSnackBar() {
     color?: "error" | "success" | "warning" | "info",
     duration?: number
   ) => {
-    let cpSnackBars = data.snackBars.slice();
     let newSnackBar: SnackBarDataProps = {title, message, color, duration, id: message + Date.now()};
-    cpSnackBars.push(newSnackBar)
-    dispatch(updateCurrentModal({...data, currentItemName: "snack-bar", hasDarkBG: false, snackBars: cpSnackBars}))
+    dispatch(addToSnackBarsState(newSnackBar));
   }
 
   /**
@@ -43,12 +45,7 @@ export function useSnackBar() {
    * @param id Id của snack bar.
    */
   const removeSnackBar = (id: string) => {
-    let cpSnackBars = data.snackBars?.slice();
-    let index = cpSnackBars.findIndex((snackBar: any) => snackBar.id === id);
-    if(data.snackBars.length === 1) cpSnackBars = [];
-    else cpSnackBars.splice(index, 1);
-    if(cpSnackBars.length === 0) return dispatch(updateCurrentModal({...data, currentItemName: "", hasDarkBG: false, snackBars: cpSnackBars}))
-    dispatch(updateCurrentModal({...data, hasDarkBG: false, snackBars: cpSnackBars}))
+    dispatch(removeFromSnackBarsState(id));
   }
 
   return {

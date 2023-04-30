@@ -24,7 +24,8 @@
   border: var(--border-2) transparent;
 }
 
-.label-input-chip input[type=checkbox] {
+.label-input-chip input[type=checkbox],
+.label-input-chip input[type=radio] {
   cursor: pointer;
   position: absolute;
   opacity: 0;
@@ -32,7 +33,8 @@
   width: 0;
 }
 
-.label-input-chip input[type=checkbox]:checked ~ .input-chip-check {
+.label-input-chip input[type=checkbox]:checked ~ .input-chip-check,
+.label-input-chip input[type=radio]:checked ~ .input-chip-check {
   border: var(--border-2) var(--clr-primary);
 }
 
@@ -44,8 +46,4 @@
   width: 100%;
   outline: none;
   border: none;
-}
-
-.border-clr-outline {
-  border: var(--border-2) var(--clr-outline);
 }

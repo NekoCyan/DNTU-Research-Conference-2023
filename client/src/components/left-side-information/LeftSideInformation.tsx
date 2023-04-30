@@ -15,13 +15,15 @@ import './LeftSideInformationStyles.css'
 export default function LeftSideInformation() {
   const { hide } = useModal();
   const { user, clearUser } = useUser();
-  const { updateLoginStatus } = useAuth();
+  const { updateLoginStatus, isLogin } = useAuth();
   const { itineraries } = useItineraries();
 
   const handleLogout = () => {
     removePersistentCookie(TOKEN_NAME);
     updateLoginStatus(false);
   }
+
+  console.log("ISLOGIN IN INFO: ", isLogin);
 
   return (
     <div className='left-side-information ps-xxl py-xxl'>
@@ -53,7 +55,7 @@ export default function LeftSideInformation() {
           </div>
         </div>
       </div>
-
+      
       <div>
         {
           user && <p>Xin chào <span className='fw-bold txt-clr-primary'>{user.fullname}</span></p>
