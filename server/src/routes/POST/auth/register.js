@@ -1,3 +1,7 @@
+const {
+    USERNAME_PATTERN, PASSWORD_PATTERN,
+} = require('../../../utils/Constants');
+
 /**
  * @type {import('../../../../typings').RouteData}
  */
@@ -13,21 +17,30 @@ module.exports = {
     ],
     authorization: false,
     async run({
-        _server, req, res, next,
+        _server, req, res, next, EmailValidator,
     }, {
         APIResponseHandler, hashMD5, randomString, isValidMail,
     }) {
         const { username, password, fullname, email } = req.body;
 
         try {
-            const User = await _server.db.User();
+            if (password?.length < 8) return APIResponseHandler(-1, 'Password must be at least 8 characters.');
 
-            const reg = /^[a-z0-9]+$/; // Only allow lowercase and number.
-            if (!reg.test(username)) return APIResponseHandler(-1, 'Username only contains lowercase letters and number.');
+            const regUsername = USERNAME_PATTERN;
+            if (!regUsername.test(username)) return APIResponseHandler(-1, 'Username only contains lowercase letters and number.');
+
+            const regPassword = PASSWORD_PATTERN;
+            if (!regPassword.test(password)) return APIResponseHandler(-1, 'Password only contains lowercase letters, uppercase letters, number, and special characters.');
+
+            const User = await _server.db.User();
 
             const checkUsername = await User.findOne({ username });
             if (checkUsername) return APIResponseHandler(-1, 'Username is already Exists.');
-            if (email && !isValidMail(email)) return APIResponseHandler(-1, 'Invalid Email.');
+
+            if (email) {
+                const EValidator = await EmailValidator(_server, email);
+                if (EValidator != true) return EValidator;
+            }
 
             const newToken = randomString(64);
 

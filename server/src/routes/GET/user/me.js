@@ -19,7 +19,7 @@ module.exports = {
             userId: User.userId,
             username: User.username,
             fullname: User.fullname,
-            email: User?.email || null,
+            email: User?.email || "",
         });
     }
 }

@@ -24,3 +24,9 @@ exports.TravelPrompt = (values) =>
     `The itinerary should include ${values.activityType} activities and ${values.cuisineType} dining options. `+
     `Please provide a detailed itinerary with daily recommendations for ${values.tripDuration} days, including suggested destinations, activities, and dining options. `+
     `The itinerary should be written in ${values.language}.`;
+
+exports.EMAIL_PATTERN = /^[a-zA-Z0-9_.+]+(?<!^[0-9]*)@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/g;
+
+exports.USERNAME_PATTERN = /^[a-z0-9]+$/;
+
+exports.PASSWORD_PATTERN = /^[\u0000-\u007F]+$/;
