@@ -13,7 +13,7 @@ module.exports = {
         { name: 'fullname', required: true },
         { name: 'username', required: true },
         { name: 'password', required: true },
-        { name: 'email', required: false },
+        { name: 'email', required: true },
     ],
     authorization: false,
     async run({

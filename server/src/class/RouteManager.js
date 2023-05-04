@@ -67,7 +67,7 @@ class RouteManager {
         if (typeof email != 'string') return Util.APIResponseHandler(-1, 'Email must be a string.');
 
         return true;
-    } // Doing validate for email change for route register.
+    }
 }
 
 module.exports = RouteManager;
