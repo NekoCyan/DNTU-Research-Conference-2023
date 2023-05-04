@@ -1,4 +1,7 @@
 const md5 = require('md5');
+const { 
+    EMAIL_PATTERN,
+} = require('./Constants');
 const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
 
 class Util {
@@ -172,12 +175,8 @@ class Util {
      * @returns {boolean}
      */
     isValidMail(mail) {
-        var mailFormat = /^[a-zA-Z0-9_.+]+(?<!^[0-9]*)@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-        if (mail !== '' && mail.match(mailFormat)) {
-            return true;
-        }
-
-        return false;
+        let mailFormat = EMAIL_PATTERN;
+        return !!(mail !== '' && mail.match(mailFormat));
     }
 
     /**

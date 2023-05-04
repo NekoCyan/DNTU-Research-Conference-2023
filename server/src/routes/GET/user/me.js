@@ -15,13 +15,11 @@ module.exports = {
         const User = await GetUser();
         if (!User) return;
 
-        console.log(User);
-
         return APIResponseHandler(1, "Authorized.", {
             userId: User.userId,
             username: User.username,
             fullname: User.fullname,
-            email: User?.email || null,
+            email: User?.email || "",
         });
     }
 }
