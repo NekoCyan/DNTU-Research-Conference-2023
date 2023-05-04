@@ -175,12 +175,8 @@ class Util {
      * @returns {boolean}
      */
     isValidMail(mail) {
-        var mailFormat = EMAIL_PATTERN;
-        if (mail !== '' && mail.match(mailFormat)) {
-            return true;
-        }
-
-        return false;
+        let mailFormat = EMAIL_PATTERN;
+        return !!(mail !== '' && mail.match(mailFormat));
     }
 
     /**
