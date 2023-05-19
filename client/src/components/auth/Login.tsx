@@ -7,7 +7,10 @@ import {
   writePersistentCookie,
   TOKEN_NAME
 } from 'src/utils/cookie'
-import { getErrorResponse } from 'src/utils/axios'
+import {
+  getErrorResponse,
+  getResponseData
+} from 'src/utils/axios'
 import {
   LOGIN_FORM,
   USERNAME_INPUT_NAME,
@@ -25,7 +28,7 @@ import Input from '../input/Input'
 
 import './AuthStyles.css'
 
-import { ResponseData } from 'src/types'
+import { ResponseDataProps } from 'src/types'
 
 export default function Login() {
   const { showSplash } = useSplash();
@@ -51,7 +54,7 @@ export default function Login() {
       let password = form[PASSWORD_INPUT_NAME].value;
 
       let registerResponse = await login(username!, password!);
-      let resData: ResponseData = registerResponse?.data;
+      let resData = getResponseData<{token: string}>(registerResponse)
       if(resData.isError) throw new Error(resData.message);
       toast.success(`Login: You login successfully.`);
       updateLoginStatus(true);
@@ -91,6 +94,8 @@ export default function Login() {
           {loginStatus[input.name] && <span className='fs-5 txt-clr-error mt-1'>{input.validate!.errorMessage}</span>}
         </div>
       ),
+      undefined,
+      undefined,
       undefined,
       undefined,
       loginFormKeys

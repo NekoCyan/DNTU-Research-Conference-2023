@@ -1,41 +1,57 @@
 import React, { FormEvent } from 'react'
 
-import {
-  INTEREST_CHIPS,
-  PROMPT_FORM,
-  renderForm
-} from 'src/utils/form';
+import { modal } from 'src/class/modal';
 
-import { useSplash } from 'src/hooks/useSplash';
+import {
+  PROMPT_FORM,
+  renderForm,
+  getValuesOfFormElement
+} from 'src/utils/form';
 
 import Input from '../input/Input'
 import Select from '../select/Select';
 
 import './FormPromptStyles.css'
-import { toThousandsSeparatedNumber, toIntNumber } from 'src/utils/number';
 
 import {
-  ChipInputDataProps,
-  GroupInputsDataProps,
-  GroupChipInputsDataProps,
-  TextInputDataProps
+  ResquestBodyDataProps,
+  PromptDataProps,
+  ItineraryDataProps
 } from 'src/types';
 
 function FormPrompt() {
-  const { showSplash } = useSplash();
-
   const formPromt = React.useMemo(() => PROMPT_FORM, []);
   const formPromtKeys = React.useMemo(() => Object.keys(formPromt), [formPromt])
+
+  const [currentItinerary, setCurrentItinerary] = React.useState<ItineraryDataProps | null>(null);
 
   const onSubmitPrompt = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let form = e.target as HTMLFormElement;
-    let inputs = form.elements;
+    let keys = Object.keys(form.elements).filter(key => {
+      let isString = Number.isNaN(parseInt(key));
+      return isString;
+    });
+    let promptAsObject: PromptDataProps = {};
 
-    // let prompt = `I travel to ${where} in ${duration} day(s).\nI've ${budget} VND for this trip.
-    // `
-    // console.log(prompt);
-    console.log(inputs);
+    for(let key of keys) {
+      let formEle: HTMLInputElement | RadioNodeList | HTMLSelectElement = form[key];
+      let data = getValuesOfFormElement(formEle);
+      let promptKey = data.elementName?.split('-')[0];
+      if(promptKey) promptAsObject[promptKey] = data.values;
+    }
+
+    let requestBody: ResquestBodyDataProps<{[key: string]: PromptDataProps}> = {
+      data: {
+        promptAsObject
+      }
+    }
+
+    setCurrentItinerary({
+      promptAsObj: {...promptAsObject}
+    })
+
+    console.log("Request body: ", requestBody)
   }
 
   console.log("RENDER: FormPrompt");
@@ -65,44 +81,45 @@ function FormPrompt() {
             ),
             group => (
               <div className="flex flex-rw mb-4" key={group.baseName}>
+                {
+                  group.inputs.map(input => (
+                    <Input
+                      {...input.props}
+                      label={
+                        input.label && (
+                          <>
+                            {input.label!.icon && <i className={`twa twa-${input.label!.icon}`}></i>}<span className='fw-bold'>{input.label!.text}</span> {input.label!.sub}
+                          </>
+                        )
+                      }
+                      labelInputClassName={input.labelInputClassName}
+                      type={input.type}
+                      name={input.name}
+                      key={input.name}
+                    />
+                  ))
+                }
+              </div>
+            ),
+            group => (
+              <div className="mb-4" key={group.baseName}>
+                <p className='fw-bold fs-3 mb-1'>{group.groupChipLabel}</p>
+                <div className='formprompt-chips-container'>
                   {
                     group.inputs.map(input => (
                       <Input
                         {...input.props}
-                        label={
-                          input.label && (
-                            <>
-                              {input.label!.icon && <i className={`twa twa-${input.label!.icon}`}></i>}<span className='fw-bold'>{input.label!.text}</span> {input.label!.sub}
-                            </>
-                          )
-                        }
-                        labelInputClassName={input.labelInputClassName}
                         type={input.type}
+                        label={input.label && <>{input.label.icon && <i className={`twa twa-${input.label.icon}`}></i>}{input.label.text && " " + input.label.text}</>}
+                        labelInputClassName='me-1'
                         name={input.name}
-                        key={input.name}
+                        key={input.value}
+                        value={input.value}
                       />
                     ))
                   }
                 </div>
-            ),
-            group => (
-              <div className="mb-4" key={group.baseName}>
-                  <p className='fw-bold fs-3 mb-1'>{group.groupChipLabel}</p>
-                  <div className='formprompt-chips-container'>
-                    {
-                      group.inputs.map(input => (
-                        <Input
-                          {...input.props}
-                          type={input.type}
-                          label={input.label && <>{input.label.icon && <i className={`twa twa-${input.label.icon}`}></i>}{input.label.text && " " + input.label.text}</>}
-                          labelInputClassName='me-1'
-                          name={input.name}
-                          key={input.value}
-                        />
-                      ))
-                    }
-                  </div>
-                </div>
+              </div>
             ),
             select => {
               let options = select.options;
@@ -181,13 +198,33 @@ function FormPrompt() {
 
       <div className='formprompt-controll-container pt-2'>
         <div className='flex flex-rw'>
-          <button 
+          <button
             className='btn btn-primary rounded-8 me-2'
             type='submit'
           >Tạo lịch trình</button>
           <button 
+            onClick={() => {
+              if(!currentItinerary?.prompt) {
+                console.log("Bạn chưa tạo lịch trình cho hành trình du lịch.");
+                modal
+                .show("messageDialog", { message: "Bạn chưa tạo lịch trình nên không thể lưu lại được :(" })
+                .then(data => {
+                  console.log("Message's result: ", data?.result);
+                })
+              } else {
+                modal
+                .show("saveItineraryDialog")
+                .then(data => {
+                  setCurrentItinerary(prevState => {
+                    let { saveItinerary } = data?.data;
+                    console.log("Save Itinerary: ", saveItinerary)
+                    return {...prevState, itineraryName: saveItinerary.itineraryName, color: saveItinerary.color}
+                  })
+                })
+              }
+            }}
             className='btn btn-20percent-background rounded-8'
-            type='submit'
+            type='button'
           >Lưu lịch trình</button>
         </div>
       </div>
@@ -207,116 +244,4 @@ export default React.memo(FormPrompt);
   <button className='btn btn-transparent-bg rounded-8'>Transparent background button</button>
   <button className='btn rounded-8 btn-lbl-primary'>No border button, lbl color primary</button>
   <button className='btn rounded-8 btn-lbl-primary-container'>No border button, lbl color primary container</button>
-*/
-/*
-    formPromtKeys.map(key => {
-      if((formPromt[key] as GroupChipInputsDataProps).isChipGroup) {
-        let group = formPromt[key] as GroupChipInputsDataProps;
-        return (
-          <div key={group.baseName}>
-            <p className='fw-bold fs-3 mb-1'>{group.groupChipLabel}</p>
-            <div className='formprompt-chips-container'>
-              {
-                group.inputs.map(input => (
-                  <Input
-                    type='chip'
-                    label={input.label && <><i className={`twa twa-${input.label.icon}`}></i> {input.label.text}</>}
-                    labelInputClassName='me-1'
-                    name={input.name}
-                    key={input.value}
-                  />
-                ))
-              }
-            </div>
-          </div>
-        )
-      }
-
-      if((formPromt[key] as GroupInputsDataProps).isGroup) {
-        let group = formPromt[key] as GroupInputsDataProps;
-        return (
-          <div className="flex flex-rw mb-4" key={group.baseName}>
-            {
-              group.inputs.map(input => (
-                <Input
-                  {...input.props}
-                  label={
-                    input.label && (
-                      <>
-                        <i className={`twa twa-${input.label!.icon}`}></i> <span className='fw-bold'>{input.label!.text}</span> {input.label!.sub}
-                      </>
-                    )
-                  }
-                  labelInputClassName={input.labelInputClassName}
-                  type={input.type}
-                  name={input.name}
-                  key={input.name}
-                />
-              ))
-            }
-          </div>
-        )
-      }
-
-      let input = formPromt[key] as TextInputDataProps;
-      return (
-        <div className="mb-4" key={input.name}>
-          <Input
-              {...input.props}
-              label={
-                input.label && (
-                  <>
-                    <i className={`twa twa-${input.label!.icon}`}></i> <span className='fw-bold'>{input.label!.text}</span> {input.label!.sub}
-                  </>
-                )
-              }
-              labelInputClassName={input.labelInputClassName}
-              type={input.type}
-              name={input.name}
-            />
-        </div>
-      )
-    })
-  }
-  <div className="mb-4">
-    <Input
-      label={<><i className="twa twa-round-pushpin"></i> <span className='fw-bold'>Bạn muốn đi du lịch ở đâu?</span></>}
-      autoComplete='none'
-      name="where-field"
-    />
-  </div>
-  <div className="flex flex-rw mb-4">
-    <Input
-      maxLength={12}
-      labelInputClassName='pe-2'
-      label={<><i className="twa twa-money-bag"></i> <span className='fw-bold'>Chi phí</span> (VND)</>}
-      autoComplete='none'
-      onInput={onBudgetInput}
-      name="budget-field"
-    />
-    <Input
-      max={365}
-      min={1}
-      type='number'
-      label={<><i className="twa twa-timer-clock"></i> <span className='fw-bold'>Trong bao lâu?</span> (Ngày)</>}
-      autoComplete='none'
-      name="duration-field"
-    />
-  </div>
-  <div>
-    <p className='fw-bold fs-3 mb-1'>Bạn bị hấp dẫn bởi:</p>
-    <div className='formprompt-chips-container'>
-      {
-        INTEREST_CHIPS.map((interestChip: ChipInputDataProps) => (
-          <Input
-            type='chip'
-            label={<><i className={`twa twa-${interestChip.icon}`}></i> {interestChip.label}</>}
-            labelInputClassName='me-1'
-            name={interestChip.name}
-            key={interestChip.value}
-          />
-        ))
-      }
-    </div>
-  </div>
 */

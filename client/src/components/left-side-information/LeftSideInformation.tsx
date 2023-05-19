@@ -1,29 +1,39 @@
 import React from 'react'
 
 import {
+  modal
+} from 'src/class/modal'
+
+import {
   removePersistentCookie,
   TOKEN_NAME
 } from 'src/utils/cookie'
 
 import { useAuth } from 'src/hooks/useAuth'
-import { useModal } from 'src/hooks/useModal'
 import { useItineraries } from 'src/hooks/useItineraries'
 import { useUser } from 'src/hooks/useUser'
 
 import './LeftSideInformationStyles.css'
 
-export default function LeftSideInformation() {
-  const { hide } = useModal();
+function LeftSideInformation() {
   const { user, clearUser } = useUser();
   const { updateLoginStatus, isLogin } = useAuth();
   const { itineraries } = useItineraries();
 
-  const handleLogout = () => {
-    removePersistentCookie(TOKEN_NAME);
-    updateLoginStatus(false);
-  }
+  const { close } = modal.getItemActions("leftSideInformation")!;
 
-  console.log("ISLOGIN IN INFO: ", isLogin);
+  const handleLogout = () => {
+    modal
+    .show("messageDialog", {message: "Bạn có chắc là muốn đăng xuất không?"})
+    .then(data => {
+      if(data?.result) {
+        close().then(() => {
+          removePersistentCookie(TOKEN_NAME);
+          updateLoginStatus(false);
+        });
+      }
+    })
+  }
 
   return (
     <div className='left-side-information ps-xxl py-xxl'>
@@ -31,7 +41,7 @@ export default function LeftSideInformation() {
         <div className='flex jc-flex-end pe-4'>
           <button
             className='btn rounded-8 btn-lbl-onBackground'
-            onClick={hide}
+            onClick={() => close(false, "Hello from LeftSideInformation")}
           >
             <span className="material-symbols-outlined">close</span>
           </button>
@@ -70,3 +80,5 @@ export default function LeftSideInformation() {
     </div>
   )
 }
+
+export default LeftSideInformation

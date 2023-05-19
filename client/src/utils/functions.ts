@@ -69,3 +69,21 @@ export function removeFrom<T>(arr: Array<T>, selectValueToCompare: (ele: T, inde
   let cpArr = arr.slice();
   return cpArr.filter((ele, index) => selectValueToCompare(ele, index) !== value)
 }
+
+/**
+ * Bind all methods in a class.
+ * @returns
+ */
+export function autoBind(obj: any) {
+  let propertyNames = Object.getOwnPropertyNames(Object.getPrototypeOf(obj));
+  for (const method of propertyNames) {
+    if (method !== 'constructor' && typeof obj[method] === 'function') {
+      try {
+          obj[method] = obj[method].bind(obj);
+      } catch (e) {
+          continue;
+      }
+    }
+  }
+  return obj;
+}

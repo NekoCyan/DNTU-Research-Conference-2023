@@ -1,6 +1,8 @@
 import React, { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
+import { toast } from 'react-toastify'
+
 import {
   EMAIL_INPUT_NAME,
   FULLNAME_INPUT_NAME,
@@ -11,7 +13,8 @@ import {
   renderForm
 } from 'src/utils/form'
 import {
-  getErrorResponse
+  getErrorResponse,
+  getResponseData
 } from 'src/utils/axios'
 
 import { useAuth } from 'src/hooks/useAuth'
@@ -22,7 +25,7 @@ import Input from '../input/Input'
 import './AuthStyles.css'
 
 import {
-  ResponseData
+  ResponseDataProps
 } from 'src/types'
 
 export default function Register() {
@@ -52,13 +55,12 @@ export default function Register() {
       let password = form[PASSWORD_INPUT_NAME].value;
 
       let registerResponse = await register(email!, fullname!, username!, password!);
-      let resData: ResponseData = registerResponse?.data;
+      let resData = getResponseData<any>(registerResponse);
       if(resData.isError) throw new Error(resData.message);
       navigate("/");
     } catch (error: any) {
-      console.log(error)
       console.log(getErrorResponse(error));
-      pushSnackBar(getErrorResponse(error), "Register", "error")
+      toast.error(`Register: ${getErrorResponse(error)}`);
     }
   }
 
@@ -90,6 +92,8 @@ export default function Register() {
           {registerStatus[input.name] && <span className='fs-5 txt-clr-error mt-1'>{input.validate!.errorMessage}</span>}
         </div>
       ),
+      undefined,
+      undefined,
       undefined,
       undefined,
       registerFormKeys

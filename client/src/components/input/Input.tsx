@@ -3,7 +3,9 @@ import React from 'react'
 import { deepCompare } from 'src/utils/functions';
 
 import {
-  InputProps
+  InputProps,
+  InputChipProps,
+  ChipInputDataProps
 } from 'src/types'
 
 import './InputStyles.css'
@@ -12,7 +14,7 @@ function I__Chip({
   label,
   labelInputClassName,
   ...props
-}: InputProps,
+}: InputChipProps,
 ref: React.ForwardedRef<HTMLInputElement>
 ) {
   props.className = "input-chip";
@@ -21,19 +23,30 @@ ref: React.ForwardedRef<HTMLInputElement>
     console.log("Chip must be have specific type: chip or radio-chip");
     return null;
   }
+
+  let checkClassName = 'input-chip-check'
+  // Extended Props
+  if(props.nonPadding) checkClassName += " " + 'non-padding';
+  if(props.shape) checkClassName += " " + props.shape;
+  else checkClassName += " " + "rounded-4";
+
+  // Đến bước này thì xoá đi bởi vì không thể add nó vào thẻ html được.
+  delete props.nonPadding;
+  delete props.shape;
+
   return (
     <label className={`label-input-chip${labelInputClassName ? " " + labelInputClassName : ""}`}>
       <input ref={ref} {...props} type={type} />
-      <span className='input-chip-check rounded-4'>
+      <span className={checkClassName}>
         {
           label
           && typeof label === 'function'
-          && <span>{label()}</span>
+          && label()
         }
         {
           label
           && typeof (label === 'string' || React.isValidElement(label))
-          && <span>{label as JSX.Element | string}</span>
+          && (label as JSX.Element | string)
         }
       </span>
     </label>
@@ -54,7 +67,7 @@ ref: React.ForwardedRef<HTMLInputElement>
       {
         label
         && typeof label === 'function'
-        && <span className={labelTextClassName}>{label()}</span>
+        && label()
       }
       {
         label
@@ -79,7 +92,7 @@ ref: React.ForwardedRef<HTMLInputElement>
       {
         label
         && typeof label === 'function'
-        && <span className={labelTextClassName}>{label()}</span>
+        && label()
       }
       {
         label

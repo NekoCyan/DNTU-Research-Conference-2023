@@ -24,6 +24,10 @@
   border: var(--border-2) transparent;
 }
 
+.input-chip-check.non-padding {
+  padding: 0;
+}
+
 .label-input-chip input[type=checkbox],
 .label-input-chip input[type=radio] {
   cursor: pointer;

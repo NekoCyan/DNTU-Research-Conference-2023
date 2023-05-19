@@ -15,6 +15,7 @@ export function configureLoginAsyncFunc(_instance: AxiosInstance) {
     } catch (error: any) {
       // Phuong: Annmounce this error by toasting
       toast.error('Error when login: ' + error)
+      return Promise.reject(false)
     }
   }
 }
@@ -33,6 +34,7 @@ export function configureRegisterAsyncFunc(_instance: AxiosInstance) {
     } catch (error: any) {
       // Phuong: Annmounce this error by toasting
       toast.error('Error when register: ' + error)
+      return Promise.reject(false)
     }
   }
 }
