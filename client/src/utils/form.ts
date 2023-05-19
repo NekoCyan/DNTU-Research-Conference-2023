@@ -12,22 +12,36 @@ import {
   GroupChipInputsDataProps,
   SelectDataProps,
   SelectOptionDataProps,
-  GroupSelectDataProps
+  GroupSelectDataProps,
+  FormElementValuesProps
 } from 'src/types'
 
 import { toThousandsSeparatedNumber, toIntNumber } from 'src/utils/number';
 
-export const WHERE_INPUT_NAME = "where-input";
+export const WHERE_INPUT_NAME = "destination-input";
 export const BUDGET_INPUT_NAME = "budget-input";
 export const DURATION_INPUT_NAME = "duration-input";
 export const ACCOMMODATION_SELECT_NAME = "accommodation-select";
 export const TRAVELWITH_SELECT_NAME = "travelwith-select";
-export const TRANSPORTATION_SELECT_NAME = "transportation-select";
+export const TRANSPORTATION_SELECT_NAME = "moveByVehicle-select";
 
 export const USERNAME_INPUT_NAME = "username-input";
 export const EMAIL_INPUT_NAME = "email-input";
 export const FULLNAME_INPUT_NAME = "fullname-input";
 export const PASSWORD_INPUT_NAME = "password-input";
+export const SAVE_ITINERARY_NAME_INPUT_NAME = "saveItineraryName-input";
+
+export const CUISINE_CHIP_NAME = 'cuisines-chip';
+export const INTEREST_CHIP_NAME = 'interest-chip';
+export const ACTIVITIES_CHIP_NAME = 'activities-chip';
+export const ITINERARY_RESPONSE_LANGUAGUE_CHIPS_NAME = 'language-chip';
+export const SAVE_ITINERARY_COLOR_CHIPS_NAME = 'saveItineraryColor-chip';
+
+export const SAVE_ITINERARY_COLORS = ['#FE2727', '#FEC227', '#9FFE27', '#149312', '#42CBB2', '#4754CC', '#000A64', '#B527CC', '#44044F', '#E700B4', '#FF86E4', '#F34A68'];
+
+const passwordErrorMessage = "Password bao gồm 8 (hoặc hơn) các kí tự từ a-zA-Z 0-9 !@#$%^&*()_+,.<>/?;:'\"'`~ và khoảng trắng";
+const usernameErrorMessage = "Username chỉ được chứa chữ cái thường hoặc số và không được rỗng.";
+
 
 export interface FormPromptDataProps {
   [key: string]: TextInputDataProps | GroupInputsDataProps | ChipInputDataProps | SelectDataProps | GroupSelectDataProps
@@ -41,7 +55,7 @@ export const INTEREST_CHIPS: Array<ChipInputDataProps> = [
       text: "Nghệ thuật",
       icon: "artist-palette"
     },
-    name: "art-interest-chip",
+    name: INTEREST_CHIP_NAME,
     value: "art",
     type: 'chip'
   },
@@ -51,7 +65,7 @@ export const INTEREST_CHIPS: Array<ChipInputDataProps> = [
       text: "Lịch sử",
       icon: "classical-building",
     },
-    name: "history-interest-chip",
+    name: INTEREST_CHIP_NAME,
     value: "history",
     type: 'chip'
   },
@@ -61,7 +75,7 @@ export const INTEREST_CHIPS: Array<ChipInputDataProps> = [
       text: "Thức ăn",
       icon: "fork-and-knife-with-plate",
     },
-    name: "food-interest-chip",
+    name: INTEREST_CHIP_NAME,
     value: "food and drink",
     type: 'chip'
   },
@@ -71,7 +85,7 @@ export const INTEREST_CHIPS: Array<ChipInputDataProps> = [
       text: "Âm nhạc",
       icon: "musical-note",
     },
-    name: "music-interest-chip",
+    name: INTEREST_CHIP_NAME,
     value: "music",
     type: 'chip'
   },
@@ -81,7 +95,7 @@ export const INTEREST_CHIPS: Array<ChipInputDataProps> = [
       text: "Thiên nhiên",
       icon: "deciduous-tree",
     },
-    name: "natural-interest-chip",
+    name: INTEREST_CHIP_NAME,
     value: "natural",
     type: 'chip'
   },
@@ -91,7 +105,7 @@ export const INTEREST_CHIPS: Array<ChipInputDataProps> = [
       text: "Thể thao",
       icon: "soccer-ball",
     },
-    name: "sports-interest-chip",
+    name: INTEREST_CHIP_NAME,
     value: "sports",
     type: 'chip'
   },
@@ -101,7 +115,7 @@ export const INTEREST_CHIPS: Array<ChipInputDataProps> = [
       text: "Nhiếp ảnh",
       icon: "camera",
     },
-    name: "photography-interest-chip",
+    name: INTEREST_CHIP_NAME,
     value: "photography",
     type: 'chip'
   },
@@ -111,7 +125,7 @@ export const INTEREST_CHIPS: Array<ChipInputDataProps> = [
       text: "Công viên",
       icon: "national-park",
     },
-    name: "park-interest-chip",
+    name: INTEREST_CHIP_NAME,
     value: "park",
     type: 'chip'
   }
@@ -126,7 +140,7 @@ export const ACTIVITIES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Ngoài trời",
     },
-    name: "outdoor-activities-chip",
+    name: ACTIVITIES_CHIP_NAME,
     value: "outdoor",
     type: 'chip'
   },
@@ -135,7 +149,7 @@ export const ACTIVITIES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Trong nhà",
     },
-    name: "indoor-activities-chip",
+    name: ACTIVITIES_CHIP_NAME,
     value: "indoor",
     type: 'chip'
   },
@@ -144,7 +158,7 @@ export const ACTIVITIES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Giải trí",
     },
-    name: "entertainment-activities-chip",
+    name: ACTIVITIES_CHIP_NAME,
     value: "entertainment",
     type: 'chip'
   },
@@ -153,7 +167,7 @@ export const ACTIVITIES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Ngắm cảnh",
     },
-    name: "sigthseeing-activities-chip",
+    name: ACTIVITIES_CHIP_NAME,
     value: "sigth seeing",
     type: 'chip'
   },
@@ -162,7 +176,7 @@ export const ACTIVITIES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Mua sắm",
     },
-    name: "shopping-activities-chip",
+    name: ACTIVITIES_CHIP_NAME,
     value: "shopping",
     type: 'chip'
   },
@@ -171,7 +185,7 @@ export const ACTIVITIES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Vui chơi",
     },
-    name: "amusement-activities-chip",
+    name: ACTIVITIES_CHIP_NAME,
     value: "amusement",
     type: 'chip'
   },
@@ -180,7 +194,7 @@ export const ACTIVITIES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Về đêm",
     },
-    name: "nightlife-activities-chip",
+    name: ACTIVITIES_CHIP_NAME,
     value: "nightlife",
     type: 'chip'
   },
@@ -189,7 +203,7 @@ export const ACTIVITIES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Khám phá",
     },
-    name: "explore-activities-chip",
+    name: ACTIVITIES_CHIP_NAME,
     value: "explore",
     type: 'chip'
   }
@@ -204,7 +218,7 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Đường phố",
     },
-    name: "streetfood-cuisine-chip",
+    name: CUISINE_CHIP_NAME,
     value: "street food",
     type: 'chip'
   },
@@ -213,7 +227,7 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Hải sản",
     },
-    name: "seefood-cuisine-chip",
+    name: CUISINE_CHIP_NAME,
     value: "see food",
     type: 'chip'
   },
@@ -222,7 +236,7 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Đặc sản",
     },
-    name: "specialtyfood-cuisine-chip",
+    name: CUISINE_CHIP_NAME,
     value: "specialty food",
     type: 'chip'
   },
@@ -231,7 +245,7 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Đồ chay",
     },
-    name: "vegan-cuisine-chip",
+    name: CUISINE_CHIP_NAME,
     value: "vegan",
     type: 'chip'
   },
@@ -240,7 +254,7 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Ăn vặt",
     },
-    name: "junkfood-cuisine-chip",
+    name: CUISINE_CHIP_NAME,
     value: "junk food",
     type: 'chip'
   },
@@ -249,7 +263,7 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Đồ ăn nhanh",
     },
-    name: "fastfood-cuisine-chip",
+    name: CUISINE_CHIP_NAME,
     value: "fast food",
     type: 'chip'
   },
@@ -258,8 +272,8 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Đồ ăn mặn",
     },
-    name: "nightlife-cuisine-chip",
-    value: "nightlife",
+    name: CUISINE_CHIP_NAME,
+    value: "savoury food",
     type: 'chip'
   },
   {
@@ -267,8 +281,8 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Đồ ăn nước",
     },
-    name: "savouryfood-cuisine-chip",
-    value: "savoury food",
+    name: CUISINE_CHIP_NAME,
+    value: "broth food",
     type: 'chip'
   },
   {
@@ -276,7 +290,7 @@ export const CUISINES_CHIP: Array<ChipInputDataProps> = [
     label: {
       text: "Đồ ngọt",
     },
-    name: "sweetiesfood-cuisine-chip",
+    name: CUISINE_CHIP_NAME,
     value: "sweeties food",
     type: 'chip'
   }
@@ -291,7 +305,7 @@ export const ITINERARY_RESPONSE_LANGUAGUE_CHIPS: Array<ChipInputDataProps> = [
     label: {
       icon: "flag-vietnam"
     },
-    name: "itineraryresponselanguage-chip",
+    name: ITINERARY_RESPONSE_LANGUAGUE_CHIPS_NAME,
     value: "vietnamese",
     type: 'radio-chip',
     props: {
@@ -303,11 +317,28 @@ export const ITINERARY_RESPONSE_LANGUAGUE_CHIPS: Array<ChipInputDataProps> = [
     label: {
       icon: "flag-united-states"
     },
-    name: "itineraryresponselanguage-chip",
+    name: ITINERARY_RESPONSE_LANGUAGUE_CHIPS_NAME,
     value: "english",
     type: 'radio-chip'
   }
 ]
+
+/**
+ * Dữ liệu cho color
+ */
+export const SAVE_ITINERARY_COLOR_CHIPS: Array<ChipInputDataProps> = SAVE_ITINERARY_COLORS.map(color => ({
+  elementType: "chip",
+  type: 'radio-chip',
+  label: {
+    text: color
+  },
+  name: SAVE_ITINERARY_COLOR_CHIPS_NAME,
+  value: color,
+  props: {
+    nonPadding: true,
+    shape: 'circle'
+  }
+}))
 
 /**
  * Dữ liệu cho accommodation
@@ -368,7 +399,7 @@ export const TRANSPORTATION_OPTIONS: Array<SelectOptionDataProps> = [
   {
     label: "Xe buýt",
     name: "transportation-coworkers-option",
-    value: 'co-workers'
+    value: 'bus'
   },
   {
     label: "Xe đạp",
@@ -396,7 +427,7 @@ export const LOGIN_FORM: {[key: string]: TextInputDataProps} = {
     name: USERNAME_INPUT_NAME,
     validate: {
       pattern: USERNAME_PATTERN,
-      errorMessage: "Username chỉ được chứa chữ cái thường hoặc số và không được rỗng."
+      errorMessage: usernameErrorMessage
     },
     props: {
       placeholder: "Tên đăng nhập",
@@ -409,7 +440,7 @@ export const LOGIN_FORM: {[key: string]: TextInputDataProps} = {
     name: PASSWORD_INPUT_NAME,
     validate: {
       pattern: PASSWORD_PATTERN,
-      errorMessage: "Password chỉ được chứa chữ cái thường hoặc số và không được rỗng."
+      errorMessage: passwordErrorMessage
     },
     props: {
       placeholder: "Mật khẩu",
@@ -451,7 +482,7 @@ export const REGISTER_FORM: {[key: string]: TextInputDataProps} = {
     name: USERNAME_INPUT_NAME,
     validate: {
       pattern: USERNAME_PATTERN,
-      errorMessage: "Username chỉ được chứa chữ cái thường hoặc số và không được rỗng."
+      errorMessage: usernameErrorMessage
     },
     props: {
       placeholder: "Tên đăng nhập",
@@ -465,7 +496,7 @@ export const REGISTER_FORM: {[key: string]: TextInputDataProps} = {
     name: PASSWORD_INPUT_NAME,
     validate: {
       pattern: PASSWORD_PATTERN,
-      errorMessage: "Password chỉ được chứa chữ cái thường hoặc số và không được rỗng."
+      errorMessage: passwordErrorMessage
     },
     props: {
       placeholder: "Mật khẩu",
@@ -592,6 +623,28 @@ export const PROMPT_FORM: FormPromptDataProps = {
   } as GroupChipInputsDataProps,
 }
 
+export const SAVE_ITINERARY_FORM: {
+  ITINERARY_NAME_INPUT: TextInputDataProps,
+  GROUP_COLOR_CHIP: GroupChipInputsDataProps
+} = {
+  ITINERARY_NAME_INPUT: {
+    name: SAVE_ITINERARY_NAME_INPUT_NAME,
+    elementType: "input",
+    type: "text",
+    props: {
+      autoComplete: "none",
+      required: true,
+      placeholder: "Tên của lịch trình"
+    }
+  },
+  GROUP_COLOR_CHIP: {
+    elementType: "group-chip-input",
+    baseName: SAVE_ITINERARY_COLOR_CHIPS_NAME,
+    inputs: SAVE_ITINERARY_COLOR_CHIPS,
+    groupChipLabel: "Màu"
+  }
+}
+
 /**
  * Hàm này dùng để render input được cung cấp từ `form`. Hiện tại thì chỉ có hỗ trợ render
  * 3 kiểu input đó là Text input, Group input (nhóm các input lại trong 1 group, cái này
@@ -660,4 +713,67 @@ export function handleInputChangeWithCondition(e: React.ChangeEvent<HTMLInputEle
       callWhenFail(text);
     }
   }
+}
+
+/**
+ * Hàm này dùng để lấy value từ form element. Với những element có thuộc tính `value`. Và tuỳ
+ * vào từng kiểu form element thì mình sẽ có từng cách lấy value khác nhau.
+ * @param formEle Phần tử của form, có thể là input, radio node list (là các input type = checkbox | radio), ngoài ra cũng có thể là select.
+ */
+export function getValuesOfFormElement(formEle: HTMLInputElement | RadioNodeList | HTMLSelectElement) {
+  let data: FormElementValuesProps = {
+    values: undefined,
+    elementName: undefined
+  };
+  
+  if(formEle instanceof HTMLInputElement) {
+    // Cái này thì cơ bản rồi
+    data.values = formEle.value;
+    data.elementName = formEle.name;
+  }
+
+  if(formEle instanceof HTMLSelectElement) {
+    /*
+      Với Select thì nó có thuộc tính `selectedOptions` là một mảng chứ 1 phần tử (bởi vì không có chọn nhiều),
+      các phần tử này là phần tử được lựa chọn và nó chính là các `option`. Lặp qua mảng này và lấy từ value của
+      các options trong đó. Nếu như mình lấy ra được nhiều hơn 1 value thì mình sẽ giữ mảng đó, ngược lại nếu như chỉ
+      lấy được 1 value thì bỏ mảng đi và lấy mỗi value đó thôi.
+    */
+    let values: Array<string | number> | string | number = [];
+    let i = 0;
+    while(formEle.selectedOptions[i]) {
+      values.push(formEle.selectedOptions[0].value);
+      i++;
+    } 
+
+    if(values.length === 1) values = values[0];
+
+    data.values = values;
+    data.elementName = formEle.name;
+  }
+
+  if(formEle instanceof RadioNodeList) {
+    /*
+      Trong HTML Form, thì radio và checkbox khi có cùng value của thuộc tính `name`,
+      thì tự động nó được group thành một nhóm và được gom lại trong Object `RadioNodeList`.
+
+      Trong `RadioNodeList` nó chứa các HTMLInputElement, Tuy nhiên thì ngoài ra nó còn có
+      một thuộc tính khác là `value`. `value` này chính là value mà mình assign cho radio, và
+      radio này chính là radio này được check. Nên là tuỳ vào element trong `RadioNodeList` thì
+      mình sẽ có 2 cách lấy value khác nhau.
+    */
+    if((formEle[0] as HTMLInputElement).type === "radio") {
+      data.values = formEle.value;
+      data.elementName = (formEle[0] as HTMLInputElement).name;
+    } else {
+      data.values = [];
+      formEle.forEach(ele => {
+        let actualEle = (ele as HTMLInputElement);
+        if(!data.elementName) data.elementName = actualEle.name;
+        if(actualEle.checked) (data.values as Array<string | number>).push(actualEle.value);
+      })
+    }
+  }
+
+  return data;
 }

@@ -6,25 +6,33 @@ import React,
   OptionHTMLAttributes
 } from "react"
 
-export interface UserProps {
+/*
+  Phần này là type của Redux state (Bao gồm User, Manifold, Itinerary)
+*/
+export interface UserDataProps {
   fullname: string,
   email: string,
   username: string,
   userId: string
 }
 
-export interface ItineraryProps {
+export interface ItineraryDataProps {
   _id?: string,
-  name?: string,
+  itineraryName?: string,
   color?: string,
-  content?: string,
+  prompt?: string,
+  promptAsObj?: PromptDataProps
 }
 
-export interface ManifoldProps {
+export interface ManifoldDataProps {
   isLogin?: boolean,
   isSplashVisible?: boolean,
 }
 
+/*
+  Phần này là type của các context, bao gồm data và values của context.
+  Có 2 context là App và Modal. (Có thể sau này sẽ đổi)
+*/
 export interface AppContextDataProps {
   user?: UserProps,
   itineraries?: {[key: string]: SheduleProps},
@@ -38,14 +46,6 @@ export interface AppContextValues {
   setUser: React.Dispatch<React.SetStateAction<UserProps | undefined>>,
   setItineraries: React.Dispatch<React.SetStateAction<{[key: string]: SheduleProps} | undefined>>,
   setManifold: React.Dispatch<React.SetStateAction<ManifoldProps>>
-}
-
-export interface SnackBarDataProps {
-  id: string,
-  title?: string;
-  message?: string;
-  color?: "error" | "success" | "warning" | "info";
-  duration?: number;
 }
 
 export interface ModalContextProps {
@@ -62,19 +62,109 @@ export interface ModalContextValues {
 }
 
 export interface ModalProps {
-  children: Array<JSX.Element> | JSX.Element
+  items?: {
+    [key: string]: {
+      component: () => JSX.Element,
+      type: ModalItemType,
+      options: ModalItemOptionsDataProps
+    }
+  }
+}
+
+export type ModalItemType = "left-side" | "right-side" | "dialog" | "snack-bar";
+
+export interface ModalItemResult {
+  message?: string,
+  result: boolean,
+  data?: any
+}
+
+export interface ModalItemOptionsDataProps {
+  hasDarkBG?: boolean
+}
+
+export type ModalItemCloseAction = (result: boolean = true, message?: string, data?: any) => Promise<boolean>
+
+export interface ModalItemDataProps {
+  component: () => JSX.Element,
+  close: ModalItemCloseAction,
+  type: ModalItemType,
+  options?: ModalItemOptionsDataProps
 }
 
 export interface ModalItemProps {
+  component: () => JSX.Element,
   name: string,
-  component: () => JSX.Element | Array<JSX.Element>,
-  type: "left-side" | "rigt-side" | "dialog" | "snack-bar"
+  type: ModalItemType
+}
+
+export interface DialogPartProps<T> {
+  close: ModalItemCloseAction,
+  data?: T
+}
+export type DialogPart = (props: DialogPartProps<T>) => JSX.Element;
+
+export interface DialogProps {
+  name: string,
+  header?: DialogPart,
+  footer?: DialogPart,
+  body?: DialogPart,
+  title?: string
+}
+
+/*
+  Dữ liệu của các Object.
+*/
+export interface SnackBarDataProps {
+  id: string,
+  title?: string;
+  message?: string;
+  color?: "error" | "success" | "warning" | "info";
+  duration?: number;
+}
+
+export interface ResponseDataProps<T> {
+  code: number,
+  data: T,
+  isError: boolean,
+  message: string
+}
+
+export interface ResquestBodyDataProps<T> {
+  data: T
+}
+
+interface Object {
+  [key: string]: any
+}
+
+export interface PromptDataProps extends Object {
+  destination?: string,
+  budget?: string,
+  duration?: number,
+  interests?: Array<string>,
+  accomodation?: string,
+  travelWith?: string,
+  moveByVehicle?: string,
+  activities?: Array<string>,
+  cuisines?: Array<string>,
+  language?: string
+}
+
+export interface SaveItineraryDataProps extends Object {
+  saveItineraryName: string,
+  saveItineraryColor?: string
 }
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string | (() => JSX.Element) | JSX.Element,
   labelInputClassName?: string,
   type?: HTMLInputTypeAttribute | 'chip' | 'radio-chip',
+}
+
+export interface InputChipProps extends InputProps {
+  nonPadding?: boolean;
+  shape?: 'circle' | 'rounded-4' | 'rounded-8' | 'rounded-12'
 }
 
 export interface SelectOptionProps extends OptionHTMLAttributes<HTMLOptionElement> {}
@@ -84,11 +174,9 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   children: JSX.Element | Array<JSX.Element>
 }
 
-export interface ResponseData {
-  code: number,
-  data: any,
-  isError: boolean,
-  message: string
+export interface FormElementValuesProps {
+  elementName?: string,
+  values?: string | number| Array<string | number>
 }
 
 export interface FormElementDataProps {
@@ -105,7 +193,7 @@ export interface InputDataProps extends FormElementDataProps {
   name: string,
   label?: FormElementLabelDataProps,
   type: HTMLInputTypeAttribute | 'chip' | 'radio-chip',
-  props?: InputHTMLAttributes<HTMLInputElement>,
+  props?: InputProps,
   labelInputClassName?: string
 }
 
@@ -121,6 +209,7 @@ export interface GroupChipInputsDataProps extends GroupInputsDataProps {
 
 export interface ChipInputDataProps extends InputDataProps {
   value: string,
+  props?: InputChipProps
 }
 
 export interface TextInputDataProps extends InputDataProps {

@@ -1,14 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-import { UserProps } from 'src/types'
+import {
+  UserDataProps
+} from 'src/types'
 
 // import { API_ROOT } from 'utilities/constants'
 // import { toast } from 'react-toastify'
 
 
 // Khởi tạo giá trị một giá trị của Slice trong Redux
-const initialState: {user: UserProps | null} = {
+const initialState: {user: UserDataProps | null} = {
   user: null
 }
 
@@ -53,7 +55,7 @@ export const userSlice = createSlice({
      * @param state Toàn bộ state của User Slice.
      * @param action 
      */
-    updateCurrentUser: (state, action: {type: string, payload: UserProps | null}) => {
+    updateCurrentUser: (state, action: {type: string, payload: UserDataProps | null}) => {
       const user = action.payload
       state.user = user ? {...state.user, ...user} : user;
     }
@@ -92,7 +94,7 @@ export const {
  * @param state Toàn bộ state của Redux store.
  * @returns 
  */
-export const selectCurrentUser = (state: any): UserProps | null => {
+export const selectCurrentUser = (state: any): UserDataProps | null => {
   return state.user.user
 }
 

@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { useModal } from 'src/hooks/useModal';
+import {
+  modal
+} from 'src/class/modal'
 
 import './ItineraryStyles.css'
 
 function Itinerary() {
-  const { show } = useModal();
-
   return (
     <div className='itinerary p-xxl'>
       {/* Introduce */}
@@ -20,7 +20,12 @@ function Itinerary() {
       <div className='pos-fixed itinerary-bot-btn-container p-xxl'>
         <button 
           className='btn btn-20percent-background rounded-8'
-          onClick={e => show("side")}
+          // For modal example
+          onClick={e => modal.show("leftSideInformation").then(data => {
+            console.log("Result: ", data?.result);
+            console.log("Message: ", data?.message);
+            console.log("Data: ", data?.data);
+          })}
         >
           Xem lịch trình đã lưu
         </button>

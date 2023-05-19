@@ -3,10 +3,20 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 import { removeFrom } from 'src/utils/functions'
 
-import { ItineraryProps } from 'src/types'
+import {
+  ItineraryDataProps
+} from 'src/types'
 
 // Phương: Khởi tạo giá trị của một Slice trong redux
-const initialState: {itineraries: {[key: string]: ItineraryProps} | null} = {
+/**
+ * State của Itinerary có cấu trúc như sau:
+ * ```ts
+ * interface itineraries = {
+ *   [key: string]: ItineraryDataProps
+ * }
+ * ```
+ */
+const initialState: {itineraries: {[key: string]: ItineraryDataProps} | null} = {
   itineraries: null
 }
 
@@ -31,12 +41,12 @@ export const ItinerariesSlice = createSlice({
      * @param state Toàn bộ state của Itineraries Slice.
      * @param action 
      */
-    updateCurrentItineraries: (state, action: {type: string, payload: {[key: string]: ItineraryProps} | null}) => {
+    updateCurrentItineraries: (state, action: {type: string, payload: {[key: string]: ItineraryDataProps} | null}) => {
       const itineraries = action.payload
       state.itineraries = itineraries ? {...itineraries} : null;
     },
 
-    updateItinerary: (state, action: {type: string, payload: {id: string, itinerary: ItineraryProps}}) => {
+    updateItinerary: (state, action: {type: string, payload: {id: string, itinerary: ItineraryDataProps}}) => {
       let { id, itinerary } = action.payload;
       if(state.itineraries && state.itineraries[id]) {
         state.itineraries![id] = Object.assign(state.itineraries![id], itinerary);
@@ -47,7 +57,7 @@ export const ItinerariesSlice = createSlice({
      * @param state Toàn bộ state của Itineraries Slice.
      * @param action 
      */
-    addToItineraries: (state, action: {type: string, payload: ItineraryProps}) => {
+    addToItineraries: (state, action: {type: string, payload: ItineraryDataProps}) => {
       let itinerary = action.payload;
       let id = itinerary._id!;
       if(!state.itineraries) state.itineraries = {};
@@ -85,7 +95,7 @@ export const {
 } = ItinerariesSlice.actions
 
 // Phương: Selectors: mục đích là dành cho các components bên dưới gọi bằng useSelector() tới nó để lấy dữ liệu từ trong redux store ra sử dụng
-export const selectCurrentItineraries = (state: any): Array<ItineraryProps> | null => {
+export const selectCurrentItineraries = (state: any): Array<ItineraryDataProps> | null => {
   return state.itineraries.itineraries
 }
 

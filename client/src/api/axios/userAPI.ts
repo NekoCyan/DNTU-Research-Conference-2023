@@ -19,6 +19,7 @@ export function configureGetMyInfoAsyncFunc(_instance: AxiosInstance) {
     } catch (error: any) {
       // Phuong: Annmounce this error by toasting
       toast.error('Error cookie: ' + error)
+      return Promise.reject(false)
     }
   }
 }

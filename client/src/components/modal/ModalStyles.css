@@ -6,6 +6,7 @@
   top: 0;
   left: 0;
   pointer-events: none;
+  animation: hide .2s ease-in-out forwards;
 }
 
 .modal.dark-bg {
@@ -14,11 +15,7 @@
 }
 
 .modal.show {
-  animation: show .5s ease-in-out forwards;
-}
-
-.modal.hide {
-  animation: hide .5s ease-in-out forwards;
+  animation: show .2s ease-in-out forwards;
 }
 
 .modal-item {
@@ -27,15 +24,34 @@
   z-index: 10;
 }
 
-.modal-item.snack-bar {
+/*
+  Các class của các modal item = modal + type của item đó. Có các class tương ứng với type như sau.
+  .modal-left-side
+  .modal-right-side
+  .modal-dialog
+  .modal-snack-bar
+*/
+
+.modal-item.modal-snack-bar {
   display: flex;
   justify-content: center;
   align-self: flex-end;
-  animation: move-from-bottom .5s ease-in-out forwards;
+  animation: move-from-bottom .2s ease-in-out forwards;
 }
 
-.modal-item.left-side {
-  animation: move-from-left .5s ease-in-out forwards;
+.modal-item.modal-left-side {
+  animation: move-from-left .2s ease-in-out forwards;
+}
+
+.modal .modal-item.modal-snack-bar {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.modal .modal-item.modal-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes show {
