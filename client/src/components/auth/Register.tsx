@@ -106,27 +106,40 @@ export default function Register() {
   ]);
 
   return (
-    <div className='auth'>
-      {/* Login introduction */}
-      <div className='auth-sub-container flex flex-col mb-2'>
-        <p className='introduction-text fs-1'>Đăng ký tài khoản</p>
-        <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itinerary</p>
-      </div>
-
-      {/* Register form */}
-      <form id="register-form" onSubmit={onRegisterSubmit} className='auth-sub-container mb-1'>
-        {form}
-        <button
-          className='btn btn-primary rounded-8 btn-full-width mt-4'
-          type="submit"
-        >Đăng ký</button>
-      </form>
-
-      {/* Navigato register */}
-      <div className='auth-sub-container flex jc-space-between'>
-        <p>Bạn đã có tài khoản?</p>
-        <Link to='/'>đăng nhập</Link>
+    <div className="auth__form form__sign-up auth">
+      <div className='panel-form height-panel-form-register'>
+        <h2 className="auth__form__title">Register</h2>
+        {/* Register form */}
+        <form id="register-form" onSubmit={onRegisterSubmit} className='auth-sub-container mb-1'>
+          {form}
+            <button
+            className='btn btn-primary rounded-8 btn-full-width mt-4'
+            type="submit"
+            >Đăng ký</button>
+        </form>
       </div>
     </div>
+    // <div className='auth'>
+    //   {/* Login introduction */}
+    //   <div className='auth-sub-container flex flex-col mb-2'>
+    //     <p className='introduction-text fs-1'>Đăng ký tài khoản</p>
+    //     <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itinerary</p>
+    //   </div>
+
+    //   {/* Register form */}
+    //   <form id="register-form" onSubmit={onRegisterSubmit} className='auth-sub-container mb-1'>
+    //     {form}
+    //     <button
+    //       className='btn btn-primary rounded-8 btn-full-width mt-4'
+    //       type="submit"
+    //     >Đăng ký</button>
+    //   </form>
+
+    //   {/* Navigato register */}
+    //   <div className='auth-sub-container flex jc-space-between'>
+    //     <p>Bạn đã có tài khoản?</p>
+    //     <Link to='/'>đăng nhập</Link>
+    //   </div>
+    // </div>
   )
 }

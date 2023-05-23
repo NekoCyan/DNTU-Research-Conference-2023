@@ -106,27 +106,40 @@ export default function Login() {
   ]);
 
   return (
-    <div className='auth'>
-      {/* Login introduction */}
-      <div className='auth-sub-container flex flex-col mb-2'>
-        <p className='introduction-text fs-1'>Chào mừng đến với</p>
-        <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itinerary</p>
-      </div>
-
-      {/* Login form */}
-      <form id="login-form" onSubmit={onLoginSubmit} className='auth-sub-container mb-1'>
-        {form}
-        <button
-          className='btn btn-primary rounded-8 btn-full-width mt-4'
-          type='submit'
-        >Đăng nhập</button>
-      </form>
-
-      {/* Navigato register */}
-      <div className='auth-sub-container flex jc-space-between'>
-        <p>Bạn chưa có tài khoản?</p>
-        <Link to='/register'>đăng ký</Link>
+    <div className="auth__form form__sign-in">
+      <div className='panel-form'>
+        <h2 className="auth__form__title">Login</h2>
+          {/* Login form */}
+          <form id="login-form" onSubmit={onLoginSubmit} className='auth-sub-container mb-1'>
+            {form}
+            <button
+              className='btn btn-primary rounded-8 btn-full-width mt-4'
+              type='submit'
+            >Đăng nhập</button>
+        </form>
       </div>
     </div>
+    // <div className='auth'>
+    //   {/* Login introduction */}
+    //   <div className='auth-sub-container flex flex-col mb-2'>
+    //     <p className='introduction-text fs-1'>Chào mừng đến với</p>
+    //     <p className='fs-1 txt-clr-primary fw-bold'>DNTU Travel Itinerary</p>
+    //   </div>
+
+    //   {/* Login form */}
+    //   <form id="login-form" onSubmit={onLoginSubmit} className='auth-sub-container mb-1'>
+    //     {form}
+    //     <button
+    //       className='btn btn-primary rounded-8 btn-full-width mt-4'
+    //       type='submit'
+    //     >Đăng nhập</button>
+    //   </form>
+
+    //   {/* Navigato register */}
+    //   <div className='auth-sub-container flex jc-space-between'>
+    //     <p>Bạn chưa có tài khoản?</p>
+    //     <Link to='/register'>đăng ký</Link>
+    //   </div>
+    // </div>
   )
 }
