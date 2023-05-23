@@ -1,0 +1,31 @@
+.snack-bars-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 480px;
+  min-width: 240px;
+  z-index: 10;
+}
+
+.snack-bar-container {
+  width: 100%;
+  background-color: var(--clr-background);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.snack-bar-container.success {
+  border-left: 8px solid var(--clr-success);
+}
+
+.snack-bar-container.error {
+  border-left: 8px solid var(--clr-error);
+}
+
+.snack-bar-container.warning {
+  border-left: 8px solid var(--clr-warning);
+}
+
+.snack-bar-container.info {
+  border-left: 8px solid var(--clr-primary-container);
+}

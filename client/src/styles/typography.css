@@ -1,0 +1,108 @@
+/* FONT */
+.fs-0 {
+  font-size: calc(var(--fs) * 2);
+}
+
+.fs-1 {
+  font-size: calc(var(--fs) * 1.75);
+}
+
+.fs-2 {
+  font-size: calc(var(--fs) * 1.5);
+}
+
+.fs-3 {
+  font-size: calc(var(--fs) * 1.125);
+}
+
+.fs-4 {
+  font-size: calc(var(--fs) * 1);
+}
+
+.fs-5 {
+  font-size: calc(var(--fs) * .81);
+}
+
+.fs-xxl {
+  font-size: calc(var(--fs) * 4);
+}
+
+.fs-xl {
+  font-size: calc(var(--fs) * 3.5);
+}
+
+.fs-l {
+  font-size: calc(var(--fs) * 3);
+}
+
+.fw-thin {
+  font-weight: 100;
+}
+
+.fw-ex-light {
+  font-weight: 200;
+}
+
+.fw-light {
+  font-weight: 300;
+}
+
+.fw-regular {
+  font-weight: 400;
+}
+
+.fw-medium {
+  font-weight: 500;
+}
+
+.fw-se-bold {
+  font-weight: 600;
+}
+
+.fw-bold {
+  font-weight: 700;
+}
+
+.fw-ex-bold {
+  font-weight: 800;
+}
+
+.fw-black {
+  font-weight: 900;
+}
+
+.txt-clr-primary {
+  color: var(--clr-primary)
+}
+
+.txt-clr-primary-c {
+  color: var(--clr-primary-container)
+}
+
+.txt-clr-error {
+  color: var(--clr-error)
+}
+
+.txt-clr-error-c {
+  color: var(--clr-error-container)
+}
+
+.txt-clr-background {
+  color: var(--clr-background)
+}
+
+.txt-clr-onBackground {
+  color: var(--clr-onBackground)
+}
+
+.txt-clr-outline {
+  color: var(--clr-outline)
+}
+
+.txt-clr-warning {
+  color: var(--clr-warning)
+}
+
+.txt-clr-success {
+  color: var(--clr-success)
+}

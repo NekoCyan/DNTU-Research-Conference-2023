@@ -1,0 +1,37 @@
+.formprompt {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: calc(1920px - 1080px);
+  min-width: 300px;
+  height: 100vh;
+  flex-grow: 1;
+  background-color: var(--clr-background);
+}
+
+.formprompt * {
+  color: var(--clr-onBackground);;
+}
+
+.formprompt-content {
+  overflow-y: scroll;
+}
+
+.formprompt-content::-webkit-scrollbar {
+  display: none;
+}
+
+.formprompt-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+
+.formprompt-select-container {
+  width: 100%;
+}
+
+.formprompt-controll-container {
+  background-color: var(--clr-background);
+}

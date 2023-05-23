@@ -1,18 +1,50 @@
 import React from 'react';
 
+import { ModalProvider } from './contexts/ModalContext';
+
+import Root from 'src/pages/root/Root';
+import Splash from './components/splash/Splash';
+import Modal from 'src/components/modal/Modal'
+import LeftSideInformation from 'src/components/left-side-information/LeftSideInformation'
+import SaveItineraryDialog from './components/dialog/SaveItineraryDialog';
+import MessageDialog from './components/dialog/MessageDialog';
+import SnackBarsContainer from './components/snackbar/SnackBarsContainer';
+
 function App() {
   return (
-    <div className="app">
-      <p><i className="twa twa-flag-vietnam"></i> Chào mừng đến với DNTU Conference</p>
-      <p>Một số nút trong app, xem App.tsx để biết thêm chi tiết</p>
-      <button className='btn btn-primary rounded-8'><span>Primary color button</span></button>
-      <button className='btn btn-error rounded-8'>Error color button</button>
-      <button className='btn rounded-8' disabled>Diabled button</button>
-      <button className='btn btn-20percent-background rounded-8'>20 percent white button</button>
-      <button className='btn btn-transparent-bg rounded-8'>Transparent background button</button>
-      <button className='btn rounded-8 btn-lbl-primary'>No border button, lbl color primary</button>
-      <button className='btn rounded-8 btn-lbl-primary-container'>No border button, lbl color primary container</button>
-    </div>
+    <>
+      <Root />
+      <Splash />
+      {/* The core child of ModalProvider */}
+      <Modal
+        items={{
+          'leftSideInformation': {
+            component: LeftSideInformation,
+            type: 'left-side',
+            options: {
+              hasDarkBG: true
+            }
+          },
+          'saveItineraryDialog': {
+            component: SaveItineraryDialog,
+            type: 'dialog',
+            options: {
+              hasDarkBG: true
+            }
+          },
+          'messageDialog': {
+            component: MessageDialog,
+            type: 'dialog',
+            options: {
+              hasDarkBG: true
+            }
+          }
+        }}
+      />
+        {/* <Modal.Item name='side' type='left-side' component={LeftSideInformation} />
+        <Modal.Item name='snack-bar' type='snack-bar' component={SnackBarsContainer} />
+      </Modal> */}
+    </>
   );
 }
 

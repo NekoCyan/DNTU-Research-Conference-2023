@@ -1,0 +1,8 @@
+.dialog {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--clr-background);
+  width: 100%;
+  max-width: 480px;
+  min-width: 300px;
+}
