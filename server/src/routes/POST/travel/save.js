@@ -67,7 +67,7 @@ module.exports = {
         if (HEX_PATTERN.test(color.toString()) == false) return APIResponseHandler(-1, 'Invalid Hex color.');
 
         try {
-            const Travel = await _server.db.Travel();
+            const Travel = _server.db.Travel();
             const result = await Travel.create({
                 userId: User.userId,
                 travelId: Date.now(),
