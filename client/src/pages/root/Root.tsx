@@ -20,6 +20,7 @@ import Login from 'src/components/auth/Login';
 import Register from 'src/components/auth/Register';
 
 import { ResponseData } from 'src/types';
+import Auth from 'src/components/auth/Auth';
 
 export default function Root() {
   const { user, updateUser, clearUser } = useUser();
@@ -58,8 +59,8 @@ export default function Root() {
         ? <Route path='/' element={<Main />} />
         : (
           <>
-            <Route path='/' element={<Login />} />
-            <Route path='/register' element={<Register />} />
+            <Route path='/' element={<Auth />} />
+            <Route path='/register' element={<Auth />} />
           </>
         )
       }
