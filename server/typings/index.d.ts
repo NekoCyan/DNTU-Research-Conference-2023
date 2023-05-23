@@ -83,7 +83,8 @@ export class Database {
 	get ready(): boolean;
 	get timestamp(): null | number;
 
-	public async User(): Promise<Schema.UserModel>;
+	public async User(): Schema.UserModel;
+	public async Travel(): Schema.TravelModel;
 }
 
 export interface DatabaseOptions {

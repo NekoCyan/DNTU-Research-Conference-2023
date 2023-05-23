@@ -54,7 +54,7 @@ class Util {
 
         const filterRequired = objRequired.filter(x => x?.required == true);
         for (const i of filterRequired) {
-            if (!objToCheck[i.name] && ![null, undefined, ''].includes(objToCheck[i.name])) {
+            if (!objToCheck[i.name] || [null, undefined].includes(objToCheck[i.name])) {
                 missingRequired.push(i.name);
             }
         }

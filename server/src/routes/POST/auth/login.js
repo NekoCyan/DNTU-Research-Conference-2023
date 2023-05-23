@@ -40,7 +40,7 @@ module.exports = {
             const newToken = randomString(64);
             
             const res = await User.findOneAndUpdate({ username }, { token: newToken }, { new: true });
-            return APIResponseHandler(200, 'Authorized.', { token: res.token });
+            return APIResponseHandler(200, 'authorized.', { token: res.token });
         } catch (e) {
             console.log(e);
             return APIResponseHandler(-1, 'An error occurred while logging you in, please try again later.');

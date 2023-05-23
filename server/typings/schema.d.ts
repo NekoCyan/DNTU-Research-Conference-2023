@@ -13,12 +13,23 @@ export type UserModel = Model<UserDocument>;
 
 export interface TravelSchema {
 	userId: { type: String; required: true };
-	destination: { type: String; required: true };
-	budget: { type: String; required: true };
-	duration: { type: String; required: true };
-	interest: { type: Array };
+	travelId: { type: String; required: true; unique: true };
 
-	plannedTimestamp: { type: String; required: true };
+	details: {
+		destination: { type: String };
+		budget: { type: String };
+		duration: { type: Number };
+		interests: { type: Array };
+		accommodation: { type: String };
+		travelWith: { type: String };
+		moveByVehicle: { type: String };
+		activities: { type: Array };
+		cuisines: { type: Array };
+		language: { type: String };
+	};
+	itineraryName: { type: String };
+	color: { type: String };
+
 	response: { type: String };
 	status: { type: Number };
 }
