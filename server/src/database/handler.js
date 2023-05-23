@@ -3,5 +3,5 @@ const travelSchemaDefinition = require('../database/SchemaDefinition/travel.sche
 
 module.exports = {
     userSchemaDefinition,
-    travelSchemaDefinition
+    travelSchemaDefinition,
 };

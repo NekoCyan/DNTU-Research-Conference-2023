@@ -25,7 +25,7 @@ class RouteManager {
     async GetUser(authorization = this.req.headers.authorization) {
         if (!authorization) return null;
 
-        const User = await this._server.db.User();
+        const User = this._server.db.User();
         try {
             const resUser = await User.findOne({ token: authorization });
 

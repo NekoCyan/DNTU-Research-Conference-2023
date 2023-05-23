@@ -6,7 +6,7 @@ const {
     defaultDatabaseOptions, mergeDefault, _optionsRequired
 } = require('../utils/Util').prototype;
 
-const SchemaDefinationHandler = require('../database/handler');
+const SchemaDefinitionHandler = require('../database/handler');
 
 const log = (msg) => console.log(`[DATABASE] ${msg}`);
 
@@ -89,24 +89,24 @@ class Database {
 
     /**
      * Create Schema / Get Collection about this Schema.
-     * @returns {Promise<import('../../typings/schema').UserModel>}
+     * @returns {import('../../typings/schema').UserModel}
      */
-    async User() {
+    User() {
         if (!this.ready) throw new Error(`Database is not connected.`);
 
-        const newSchema = new Schema(SchemaDefinationHandler.userSchemaDefinition);
+        const newSchema = new Schema(SchemaDefinitionHandler.userSchemaDefinition);
 
         return mongoose.models.user || mongoose.model('user', newSchema);
     }
 
     /**
      * Create Schema / Get Collection about this Schema.
-     * @returns {Promise<import('../../typings/schema').TravelModel>}
+     * @returns {import('../../typings/schema').TravelModel}
      */
-    async Travel() {
+    Travel() {
         if (!this.ready) throw new Error(`Database is not connected.`);
 
-        const newSchema = new Schema(SchemaDefinationHandler.travelSchemaDefinition);
+        const newSchema = new Schema(SchemaDefinitionHandler.travelSchemaDefinition);
 
         return mongoose.models.travel || mongoose.model('travel', newSchema);
     }

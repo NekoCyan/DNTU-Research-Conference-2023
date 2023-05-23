@@ -53,7 +53,7 @@ module.exports = {
                 token: newToken,
             });
 
-            return APIResponseHandler(200, 'Authorized.', { token: res.token });
+            return APIResponseHandler(200, 'authorized.', { token: res.token });
         } catch (e) {
             console.log(e);
             return APIResponseHandler(-1, 'An error occurred while signing you up, please try again later.');

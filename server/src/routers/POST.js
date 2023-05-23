@@ -17,7 +17,7 @@ module.exports = async (_server, req, res, next) => {
     const URL = URLHandler(req.baseUrl);
     const Router = req.method;
     const input = `${Router}:/${URL.join('/')}`;
-    
+
     if (_server.options.dedug == true) {
         console.log(req);
         console.log(input);
@@ -25,6 +25,10 @@ module.exports = async (_server, req, res, next) => {
 
     const findRoute = _server.routes.get(input);
     if (findRoute) {
+        if (findRoute.authorization == true && !req.headers.authorization) {
+            return res.json(APIResponseHandler(-1, 'Unauthorized.'));
+        }
+
         const checkQuery = checkRequirement(req.query, findRoute.query, 'query');
         const checkHeaders = checkRequirement(req.headers, findRoute.headers, 'headers');
         const checkBody = checkRequirement(req.body, findRoute.body, 'body');
@@ -41,8 +45,6 @@ module.exports = async (_server, req, res, next) => {
             } else {
                 res.json(APIResponseHandler(-1, 'Parameters for Query, Headers or Body is Missing.'));
             }
-        } else if (findRoute.authorization == true && !req.headers.authorization) {
-            res.json(APIResponseHandler(-1, 'Unauthorized.'));
         } else {
             const Manager = new RouteManager(_server, req, res, next);
             const callback = await findRoute.run(Manager, Util);
