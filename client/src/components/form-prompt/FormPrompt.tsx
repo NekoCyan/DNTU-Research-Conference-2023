@@ -78,7 +78,7 @@ function FormPrompt() {
       if(promptKey) promptAsObject[promptKey] = data.values;
     }
 
-    // generateItinerary({promptAsObj: {...promptAsObject}});
+    generateItinerary({promptAsObj: {...promptAsObject}});
     updateItineraryDetails({promptAsObj: {...promptAsObject}});
   }
 

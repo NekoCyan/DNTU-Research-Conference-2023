@@ -10,6 +10,7 @@ import {
 } from 'src/hooks/useItineraries'
 
 import './ItineraryStyles.css'
+import ReactTyped from 'react-typed'
 
 function Itinerary() {
   const {
@@ -22,17 +23,28 @@ function Itinerary() {
     <div className='itinerary p-xxl'>
       {/* Introduce */}
       <div className='mb-xxl'>
-        <p className='fs-xxl fw-bold flex ait-center'>
+        <p className='fs-xxl fw-bold flex ait-center mb-3'>
           Tạo lịch trình du lịch
         </p>
-        <p className='fs-3 mb-4'>Bạn không biết đi đâu? Vậy thì tạo lịch trình thôi!</p>
         {
           isGenerating
           ? (
-            <p className='flex ait-center'>Đang tạo, vui lòng đợi một xíu<span className="loader ms-3"></span></p>
-          )
-          : (
-            (!isGenerated && Boolean(!itineraryDetails?.prompt)) && <p>Xin chào các bạn, mình sẽ hỗ trợ cho các bạn về việc lên kế hoạch đi du lịch, ngắn hạn hoặc dài hạn. Mình sẽ đưa cho các bạn các thông tin cần thiết để chuẩn bị tốt nhất cho chuyến đi.</p>
+            <p className='flex ait-center'>Đang tạo, vui lòng đợi một xíu <span className="loader ms-3"></span></p>
+            )
+            : (
+              (!isGenerated && Boolean(!itineraryDetails?.prompt)) && 
+              <>
+                <p className='fs-3 mb-2 lh-sm'>Bạn không biết đi đâu? Vậy thì tạo lịch trình thôi!</p>
+              <ReactTyped
+                    strings={[
+                      'Xin chào các bạn, mình sẽ hỗ trợ cho các bạn về việc lên kế hoạch đi du lịch, ngắn hạn hoặc dài hạn. Mình sẽ đưa cho các bạn các thông tin cần thiết để chuẩn bị tốt nhất cho chuyến đi.'
+                    ]}
+                    typeSpeed={20}
+                    backSpeed={100}
+                    loop={false}
+                    className='lh-lg'
+                  />  
+              </>
           )
         }
         {
