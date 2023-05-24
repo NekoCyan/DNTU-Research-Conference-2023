@@ -1,8 +1,17 @@
 import React, { FormEvent } from 'react'
 
 import {
+  modal
+} from 'src/class/modal'
+
+import {
+  useItineraryDetailsState
+} from 'src/hooks/useItineraries'
+
+import {
   renderForm,
-  getValuesOfFormElement
+  getValuesOfFormElement,
+  setValuesToFormElement
 } from 'src/utils/form'
 
 import {
@@ -15,11 +24,16 @@ import Dialog from './Dialog'
 import {
   ModalItemCloseAction,
   SaveItineraryDataProps,
-  DialogPart
+  DialogPart,
+  ItineraryDataProps
 } from 'src/types'
 
 export default function SaveItineraryDialog() {
-  let saveItineraryForm = React.useMemo(() => SAVE_ITINERARY_FORM, []);
+  let { itineraryDetails } = useItineraryDetailsState();
+  let saveItineraryForm = React.useMemo(() => SAVE_ITINERARY_FORM, [itineraryDetails]);
+
+  const [hasFormRef, setHasFormRef] = React.useState(false);
+  const formRef = React.useRef<HTMLFormElement | null>(null);
 
   let onSubmitSaveItinerary = React.useMemo(() => {
     return function(close: ModalItemCloseAction) {
@@ -31,9 +45,9 @@ export default function SaveItineraryDialog() {
           return isString;
         });
         let saveItinerary: SaveItineraryDataProps = {
-          saveItineraryName: "Lịch trình du lịch"
+          itineraryName: "Lịch trình du lịch"
         };
-    
+
         for(let key of keys) {
           let formEle: HTMLInputElement | RadioNodeList = form[key];
           let data = getValuesOfFormElement(formEle);
@@ -41,19 +55,35 @@ export default function SaveItineraryDialog() {
           if(saveItineraryKey) saveItinerary[saveItineraryKey] = data.values;
         }
 
+        
+
         close(
           true,
           "Đang lưu lịch trình...",
           { 
-            saveItinerary: {
-              itineraryName: saveItinerary.saveItineraryName,
-              color: saveItinerary.saveItineraryColor
-            } 
+            itineraryName: saveItinerary.itineraryName,
+            color: saveItinerary.color
           }
         )
       }
     }
   }, [])
+
+  React.useEffect(() => {
+    if(hasFormRef && itineraryDetails) {
+      let form = formRef.current!;
+      let keys = Object.keys(form.elements).filter(key => {
+        let isString = Number.isNaN(parseInt(key));
+        return isString;
+      });
+      console.log("Data: ", itineraryDetails);
+      for(let key of keys) {
+        let formEle: HTMLInputElement | RadioNodeList | HTMLSelectElement = form[key];
+        let keyForPromptObj = key.split("-")[0] as keyof ItineraryDataProps;
+        setValuesToFormElement(formEle, itineraryDetails![keyForPromptObj] ? itineraryDetails![keyForPromptObj] : "");
+      }
+    }
+  }, [hasFormRef]);
 
   let Header = React.useMemo((): DialogPart => {
     return function({close}) {
@@ -65,7 +95,13 @@ export default function SaveItineraryDialog() {
     return function ({close}) {
       return (
         <div>
-          <form id="save-itinerary-form" onSubmit={onSubmitSaveItinerary(close)}>
+          <form
+            ref={form => {
+              formRef.current = form;
+              setHasFormRef(true);
+            }}
+            id="save-itinerary-form" onSubmit={onSubmitSaveItinerary(close)}
+          >
             {
               renderForm(saveItineraryForm,
                 input => {
@@ -131,7 +167,7 @@ export default function SaveItineraryDialog() {
         </div>
       )
     }
-  }, []);
+  }, [hasFormRef]);
 
   let dialogName = 'saveItineraryDialog';
 

@@ -1,8 +1,8 @@
 import React from "react";
 
 import {
-  loginAsyncFunc,
-  registerAsyncFunc,
+  loginAsync,
+  registerAsync,
   getMyInfoAsync
 } from 'src/api'
 
@@ -25,11 +25,11 @@ export function useAuth() {
   /**
    * Hàm này dùng để đăng nhập.
    */
-  const login = loginAsyncFunc;
+  const login = loginAsync;
   /**
    * Hàm này dùng để đăng ký.
    */
-  const register = registerAsyncFunc;
+  const register = registerAsync;
   /**
    * Hàm này dùng để lấy dữ liệu người dùng.
    */

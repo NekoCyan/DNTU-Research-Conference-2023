@@ -1,11 +1,9 @@
 .btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  outline: none;
-  background-color: transparent;
   padding: 12px 18px;
+}
+
+.btn-text {
+  cursor: pointer;
 }
 
 .btn-full-width {
@@ -52,6 +50,7 @@
 }
 
 .btn-transparent-bg {
+  background-color: transparent;
   border: var(--border-2) var(--clr-outline);
 }
 
@@ -106,4 +105,9 @@ button[disabled] * {
 .btn-lbl-outline,
 .btn-lbl-outline * {
   color: var(--clr-outline)
+}
+
+.btn-non-border {
+  border: none;
+  outline: none;
 }

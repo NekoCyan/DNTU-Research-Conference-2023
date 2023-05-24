@@ -4,6 +4,7 @@
   height: 100vh;
   flex-grow: 2;
   background-color: var(--clr-onBackground);
+  overflow-y: scroll;
 }
 
 .itinerary * {
@@ -13,4 +14,8 @@
 .itinerary-bot-btn-container {
   left: 0;
   bottom: 0;
+}
+
+.itinerary-result {
+  
 }

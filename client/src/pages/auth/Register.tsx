@@ -20,7 +20,7 @@ import {
 import { useAuth } from 'src/hooks/useAuth'
 import { useSnackBar } from 'src/hooks/useSnackBar'
 
-import Input from '../input/Input'
+import Input from '../../components/input/Input'
 
 import './AuthStyles.css'
 
@@ -57,6 +57,7 @@ export default function Register() {
       let registerResponse = await register(email!, fullname!, username!, password!);
       let resData = getResponseData<any>(registerResponse);
       if(resData.isError) throw new Error(resData.message);
+      toast.success("Đăng kí: Bạn đã tạo tài khoản thành công! Vui lòng đăng nhập.");
       navigate("/");
     } catch (error: any) {
       console.log(getErrorResponse(error));
@@ -108,7 +109,7 @@ export default function Register() {
   return (
     <div className="auth__form form__sign-up auth">
       <div className='panel-form height-panel-form-register'>
-        <h2 className="auth__form__title">Register</h2>
+        <h2 className="auth__form__title">Đăng ký tài khoản</h2>
         {/* Register form */}
         <form id="register-form" onSubmit={onRegisterSubmit} className='auth-sub-container mb-1'>
           {form}
