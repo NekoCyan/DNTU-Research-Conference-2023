@@ -16,3 +16,9 @@
   width: 100%;
   text-align: center;
 }
+
+.auth-logo {
+  width: 100%;
+  min-width: 64px;
+  max-width: 100px;
+}

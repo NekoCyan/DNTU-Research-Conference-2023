@@ -24,16 +24,14 @@ import { useSnackBar } from 'src/hooks/useSnackBar'
 import { useSplash } from 'src/hooks/useSplash'
 import { useAuth } from 'src/hooks/useAuth'
 
-import Input from '../input/Input'
+import Input from '../../components/input/Input'
 
 import './AuthStyles.css'
 
 import { ResponseDataProps } from 'src/types'
 
 export default function Login() {
-  const { showSplash } = useSplash();
   const { login, updateLoginStatus } = useAuth();
-  const { pushSnackBar } = useSnackBar();
 
   console.log("RENDER: Login");
 
@@ -45,6 +43,7 @@ export default function Login() {
     [USERNAME_INPUT_NAME]: undefined,
     [PASSWORD_INPUT_NAME]: undefined
   });
+
   const onLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
@@ -56,7 +55,7 @@ export default function Login() {
       let registerResponse = await login(username!, password!);
       let resData = getResponseData<{token: string}>(registerResponse)
       if(resData.isError) throw new Error(resData.message);
-      toast.success(`Login: You login successfully.`);
+      toast.success(`Đăng nhập: Bạn đã đăng nhập thành công!`);
       updateLoginStatus(true);
       let token = resData.data.token;
       writePersistentCookie(TOKEN_NAME, token, 1);
@@ -108,7 +107,7 @@ export default function Login() {
   return (
     <div className="auth__form form__sign-in">
       <div className='panel-form'>
-        <h2 className="auth__form__title">Login</h2>
+        <h2 className="auth__form__title">Đăng nhập</h2>
           {/* Login form */}
           <form id="login-form" onSubmit={onLoginSubmit} className='auth-sub-container mb-1'>
             {form}

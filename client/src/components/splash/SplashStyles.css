@@ -10,4 +10,5 @@
   top: 0;
   left: 0;
   transition: .5s ease-in-out;
+  z-index: 9999;
 }

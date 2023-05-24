@@ -32,7 +32,7 @@ export default function Dialog({
         {
           header
           ? header(props)
-          : <p className="fw-bold">{title}</p>
+          : <p className="fs-3 fw-bold">{title}</p>
         }
       </div>
 

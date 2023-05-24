@@ -1,0 +1,55 @@
+@media only screen and (max-width: 1280px) {
+  :root {
+    --spacing-xxl: 3rem;
+  }
+
+  .inputs-container,
+  .selects-container {
+    flex-direction: column;
+  }
+
+  .inputs-container > :not(.inputs-container .label-input:last-of-type),
+  .selects-container > :not(.selects-container .select-container:last-of-type) {
+    margin-right: 0px;
+    margin-bottom: 12px;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  :root {
+    --spacing-xxl: 2rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .fs-xxl {
+    font-size: calc(var(--fs) * 3.25);
+  }
+  
+  .fs-xl {
+    font-size: calc(var(--fs) * 2.75);
+  }
+  
+  .fs-l {
+    font-size: calc(var(--fs) * 2.35);
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  #prompt-form {
+    position: absolute;
+    width: 0;
+    min-width: 0;
+    right: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .left-side-information {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+  }
+}

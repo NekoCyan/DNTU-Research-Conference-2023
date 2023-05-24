@@ -7,7 +7,7 @@ import Itinerary from 'src/components/itinerary/Itinerary'
 
 export default function Main() {
   return (
-    <div className='flex container jc-space-between'>
+    <div className='main flex container jc-space-between'>
       {/* Itinerary result will show here */}
       <Itinerary />
 

@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 import { readCookie, TOKEN_NAME } from 'src/utils/cookie';
 
-const userAPIBase = 'user';
+const apiBaseName = 'user';
 
 export function configureGetMyInfoAsyncFunc(_instance: AxiosInstance) {
   return async function() {
@@ -14,7 +14,7 @@ export function configureGetMyInfoAsyncFunc(_instance: AxiosInstance) {
           "Authorization": token
         }
       }
-      let url = userAPIBase + '/me';
+      let url = apiBaseName + '/me';
       return await _instance.get(url, options);
     } catch (error: any) {
       // Phuong: Annmounce this error by toasting

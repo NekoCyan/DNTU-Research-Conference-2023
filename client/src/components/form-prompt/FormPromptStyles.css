@@ -10,6 +10,10 @@
   background-color: var(--clr-background);
 }
 
+.formprompt.show {
+  animation: formprompt-show .4s forwards;
+}
+
 .formprompt * {
   color: var(--clr-onBackground);;
 }
@@ -18,20 +22,23 @@
   overflow-y: scroll;
 }
 
-.formprompt-content::-webkit-scrollbar {
+/* .formprompt-content::-webkit-scrollbar {
   display: none;
+} */
+
+.toggle-form-btn {
+  position: absolute;
+  height: fit-content;
+  right: 0;
+  bottom: 0;
 }
 
-.formprompt-chips-container {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: 8px;
-}
+@keyframes formprompt-show {
+  0% {
+    width: 0;
+  }
 
-.formprompt-select-container {
-  width: 100%;
-}
-
-.formprompt-controll-container {
-  background-color: var(--clr-background);
+  100% {
+    width: 100%;
+  }
 }
