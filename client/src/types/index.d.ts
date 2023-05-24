@@ -18,6 +18,7 @@ export interface UserDataProps {
 
 export interface ItineraryDataProps {
   _id?: string,
+  travelId?: string,
   itineraryName?: string,
   color?: string,
   prompt?: string,
@@ -130,10 +131,6 @@ export interface ResponseDataProps<T> {
   message: string
 }
 
-export interface ResquestBodyDataProps<T> {
-  data: T
-}
-
 interface Object {
   [key: string]: any
 }
@@ -152,8 +149,8 @@ export interface PromptDataProps extends Object {
 }
 
 export interface SaveItineraryDataProps extends Object {
-  saveItineraryName: string,
-  saveItineraryColor?: string
+  itineraryName: string,
+  color?: string
 }
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

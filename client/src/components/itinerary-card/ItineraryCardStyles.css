@@ -1,0 +1,50 @@
+.itinerary-card {
+  position: relative;
+  display: flex;
+  width: 100%;
+  background-color: var(--clr-background);
+}
+
+.itinerary-card:hover {
+  background-color: rgb(var(--clr-rgb-onBackground), 0.05);
+}
+
+.itinerary-card-color-bar {
+  width: 5px;
+  height: 44px;
+}
+
+.itinerary-name-container {
+  width: 100%;
+}
+
+.itinerary-name {
+  width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itinerary-card-controls {
+  position: absolute;
+  display: none;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(var(--clr-rgb-onBackground), 0.05);
+  z-index: 1;
+}
+
+.itinerary-card:hover .itinerary-card-controls {
+  display: flex;
+}
+
+.itinerary-card-controls .material-symbols-outlined {
+  font-variation-settings:
+  'wght' 200
+}
+
+.itinerary-card-controls button {
+  background-color: transparent;
+  z-index: 3;
+}

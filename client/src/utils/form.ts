@@ -22,20 +22,20 @@ export const WHERE_INPUT_NAME = "destination-input";
 export const BUDGET_INPUT_NAME = "budget-input";
 export const DURATION_INPUT_NAME = "duration-input";
 export const ACCOMMODATION_SELECT_NAME = "accommodation-select";
-export const TRAVELWITH_SELECT_NAME = "travelwith-select";
+export const TRAVELWITH_SELECT_NAME = "travelWith-select";
 export const TRANSPORTATION_SELECT_NAME = "moveByVehicle-select";
 
 export const USERNAME_INPUT_NAME = "username-input";
 export const EMAIL_INPUT_NAME = "email-input";
 export const FULLNAME_INPUT_NAME = "fullname-input";
 export const PASSWORD_INPUT_NAME = "password-input";
-export const SAVE_ITINERARY_NAME_INPUT_NAME = "saveItineraryName-input";
+export const SAVE_ITINERARY_NAME_INPUT_NAME = "itineraryName-input";
 
 export const CUISINE_CHIP_NAME = 'cuisines-chip';
-export const INTEREST_CHIP_NAME = 'interest-chip';
+export const INTEREST_CHIP_NAME = 'interests-chip';
 export const ACTIVITIES_CHIP_NAME = 'activities-chip';
 export const ITINERARY_RESPONSE_LANGUAGUE_CHIPS_NAME = 'language-chip';
-export const SAVE_ITINERARY_COLOR_CHIPS_NAME = 'saveItineraryColor-chip';
+export const SAVE_ITINERARY_COLOR_CHIPS_NAME = 'color-chip';
 
 export const SAVE_ITINERARY_COLORS = ['#FE2727', '#FEC227', '#9FFE27', '#149312', '#42CBB2', '#4754CC', '#000A64', '#B527CC', '#44044F', '#E700B4', '#FF86E4', '#F34A68'];
 
@@ -570,7 +570,7 @@ export const PROMPT_FORM: FormPromptDataProps = {
   } as GroupInputsDataProps,
   GROUP_2: {
     elementType: "group-chip-input",
-    baseName: 'interest-chip',
+    baseName: INTEREST_CHIP_NAME,
     inputs: INTEREST_CHIPS,
     groupChipLabel: "Bạn bị hấp dẫn bởi:"
   } as GroupChipInputsDataProps,
@@ -580,7 +580,6 @@ export const PROMPT_FORM: FormPromptDataProps = {
     selects: [
       {
         name: ACCOMMODATION_SELECT_NAME,
-        containerClassName: "me-2",
         label: {
           text: "Bạn muốn nghỉ ở đâu?"
         },
@@ -776,4 +775,37 @@ export function getValuesOfFormElement(formEle: HTMLInputElement | RadioNodeList
   }
 
   return data;
+}
+
+/**
+ * Hàm này dùng để setvalue cho form.
+ * @param formEle Phần tử của form, có thể là input, radio node list (là các input type = checkbox | radio), ngoài ra cũng có thể là select.
+ */
+export function setValuesToFormElement(formEle: HTMLInputElement | RadioNodeList | HTMLSelectElement, values: any) {
+  if(formEle instanceof HTMLInputElement) {
+    formEle.value = values;
+  }
+
+  if(formEle instanceof HTMLSelectElement) {
+    formEle.value = values;
+  }
+
+  if(formEle instanceof RadioNodeList) {
+    /*
+      Trong HTML Form, thì radio và checkbox khi có cùng value của thuộc tính `name`,
+      thì tự động nó được group thành một nhóm và được gom lại trong Object `RadioNodeList`.
+
+      Trong `RadioNodeList` nó chứa các HTMLInputElement, Tuy nhiên thì ngoài ra nó còn có
+      một thuộc tính khác là `value`. `value` này chính là value mà mình assign cho radio, và
+      radio này chính là radio này được check. Nên là tuỳ vào element trong `RadioNodeList` thì
+      mình sẽ có 2 cách lấy value khác nhau.
+    */
+    if((formEle[0] as HTMLInputElement).type === "radio") {
+      formEle.value = values;
+    } else {
+      formEle.forEach((ele: any) => {
+        if(values.includes(ele.value)) ele.checked = true;
+      })
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UserProps } from "src/types";
+import { UserDataProps } from "src/types";
 import { useSelector, useDispatch } from 'react-redux'
 import { selectCurrentUser, updateCurrentUser } from "src/redux/user/userSlice";
 /**
@@ -18,7 +18,7 @@ export function useUser() {
    * Hàm này dùng để update thông tin cho `user`.
    * @returns
    */
-  const updateUser = (newUser: UserProps) => dispatch(updateCurrentUser(newUser));
+  const updateUser = (newUser: UserDataProps) => dispatch(updateCurrentUser(newUser));
   /**
    * Hàm này dùng để clear `user`.
    * @returns

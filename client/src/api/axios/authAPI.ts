@@ -1,12 +1,12 @@
 import axios, { AxiosInstance } from 'axios';
 import { toast } from 'react-toastify';
 
-const authAPIBase = 'auth';
+const apiBaseName = 'auth';
 
 export function configureLoginAsyncFunc(_instance: AxiosInstance) {
   return async function(username: string, password: string) {
     try {
-      let url = authAPIBase + '/login';
+      let url = apiBaseName + '/login';
       let body = {
         username,
         password
@@ -23,7 +23,7 @@ export function configureLoginAsyncFunc(_instance: AxiosInstance) {
 export function configureRegisterAsyncFunc(_instance: AxiosInstance) {
   return async function(email: string, fullname: string, username: string, password: string) {
     try {
-      let url = authAPIBase + '/register';
+      let url = apiBaseName + '/register';
       let body = {
         email,
         fullname,

@@ -1,0 +1,26 @@
+.inputs-container,
+.selects-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.inputs-container > :not(.inputs-container .label-input:last-of-type),
+.selects-container > :not(.selects-container .select-container:last-of-type) {
+  margin-right: 16px;
+}
+
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+
+.select-container {
+  width: 100%;
+}
+
+.form-control-container {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--clr-background);
+}

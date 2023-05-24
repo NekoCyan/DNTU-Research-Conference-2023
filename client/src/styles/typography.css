@@ -1,4 +1,16 @@
 /* FONT */
+.fs-xxl {
+  font-size: calc(var(--fs) * 4);
+}
+
+.fs-xl {
+  font-size: calc(var(--fs) * 3.5);
+}
+
+.fs-l {
+  font-size: calc(var(--fs) * 3);
+}
+/* === */
 .fs-0 {
   font-size: calc(var(--fs) * 2);
 }
@@ -21,18 +33,6 @@
 
 .fs-5 {
   font-size: calc(var(--fs) * .81);
-}
-
-.fs-xxl {
-  font-size: calc(var(--fs) * 4);
-}
-
-.fs-xl {
-  font-size: calc(var(--fs) * 3.5);
-}
-
-.fs-l {
-  font-size: calc(var(--fs) * 3);
 }
 
 .fw-thin {

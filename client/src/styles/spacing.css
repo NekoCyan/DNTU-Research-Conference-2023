@@ -388,7 +388,7 @@
 }
 
 .pb-xxl {
-  padding-bottom: var(--spacing-xxl);
+  padding-bottom: 20px;
 }
 
 .pt-xxl {

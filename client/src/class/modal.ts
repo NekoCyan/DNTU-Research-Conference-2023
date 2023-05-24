@@ -121,8 +121,6 @@ class Modal {
             close: this._createCloseAction(name)
           }
         })
-
-        console.log("ITEM IN QUEUE AFTER ADD: ", this._itemsQueue);
       }
       if(!component) throw new Error(this.messageError.subscribeError("Function component require!"));
 
@@ -133,8 +131,6 @@ class Modal {
           close: this._createCloseAction(name),
           options: {...options}
         } as ModalItemDataProps;
-
-        console.log(`${name}: `, this._items[name]);
       }
     } catch (error: any) {
       console.error(error.message);

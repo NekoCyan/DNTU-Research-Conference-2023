@@ -16,24 +16,24 @@ import {
 } from 'src/api'
 
 import Main from '../main/Main';
-import Login from 'src/components/auth/Login';
-import Register from 'src/components/auth/Register';
+import Auth from 'src/pages/auth/Auth';
+import About from '../about/About';
+import Login from 'src/pages/auth/Login';
+import Register from 'src/pages/auth/Register';
 
-import { ResponseData } from 'src/types';
-import Auth from 'src/components/auth/Auth';
+import { ResponseDataProps } from 'src/types';
 
 export default function Root() {
   const { user, updateUser, clearUser } = useUser();
   const { isLogin, updateLoginStatus } = useAuth();
   const { hideSplash } = useSplash();
-  const { hide } = useModal();
 
   React.useEffect(() => {
     async function auth() {
       try {
         console.log("AUTH USER");
         let authRes = await getMyInfoAsync();
-        let resData: ResponseData = authRes?.data;
+        let resData: ResponseDataProps<any> = authRes?.data;
         if(resData.isError) throw new Error(resData.message);
         console.log("AUTH: ", resData);
         updateUser(resData.data);
@@ -47,7 +47,7 @@ export default function Root() {
     console.log("IS LOGIN: ", isLogin);
     console.log("USER: ", user);
     if(!user) auth();
-    if(user && !isLogin) { console.log("LOGOUT"); clearUser(); hide(); }
+    if(user && !isLogin) { console.log("LOGOUT"); clearUser(); }
   }, [isLogin]);
 
   console.log("RENDER: Root");
@@ -56,7 +56,11 @@ export default function Root() {
     <Routes>
       {
         user
-        ? <Route path='/' element={<Main />} />
+        ? (
+          <>
+            <Route path='/' element={<Main />} />
+          </>
+        )
         : (
           <>
             <Route path='/' element={<Auth />} />
@@ -64,6 +68,7 @@ export default function Root() {
           </>
         )
       }
+      <Route path='/about' element={<About />} />
     </Routes>
   )
 }
