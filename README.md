@@ -30,7 +30,7 @@ Document: [LangChain.js](https://js.langchain.com/docs/).
 </div>
 
 <div>
-    <i>Archivements:</i>
+    <i>Archives and Achievements:</i>
     <ul>
         <li><a href="https://github.com/NekoCyan/DNTU-Research-Conference-2023/blob/main/archived/DNTU-Research-Conference-2023.docx">DNTU Research Conference 2023 - All about this Project (docx)</a>.</li>
         <li><a href="https://github.com/NekoCyan/DNTU-Research-Conference-2023/blob/main/archived/K%E1%BB%B7%20y%E1%BA%BFu%20HNKHSV-2023-DUY%E1%BB%86T.pdf">Archived for The Seventh Conference on Scientific Research of DNTU Student 2023 (pdf)</a>.</li>
