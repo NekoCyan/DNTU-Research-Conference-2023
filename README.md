@@ -1,6 +1,6 @@
 <div>
     <h1>
-        <a align="left" href="https://sv.dntu.edu.vn"><img src="https://sv.dntu.edu.vn/images/dntu-logo.png" alt="DNTU-Logo" style="width: 80px; float: left;"/></a>
+        <a href="https://sv.dntu.edu.vn"><img align="left" src="https://sv.dntu.edu.vn/images/dntu-logo.png" alt="DNTU-Logo" style="width: 80px;"/></a>
         DNTU Research Conference 2023
         <br>
         Travel Itineraries with AI Technology
